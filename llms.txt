@@ -1,0 +1,32 @@
+# Caspian Healthcare Foundation
+
+> A registered public charitable trust in Hyderabad, Telangana, India, working on diabetes, obesity and preventive health: free screening camps, public education, an annual public health expo, and certificate training for physicians.
+
+## Facts
+- Legal form: public charitable trust, deed executed 17 February 2023, registered 1 March 2023, Document No. 30/2023, Book IV, SRO Golconda, Hyderabad.
+- PAN: AADTC2568A
+- Section 12AB registration: URN AADTC2568A23HY01, granted 17 February 2024, valid AY 2023-24 to 2027-28.
+- Section 80G approval: URN AADTC2568A24HY01, granted 26 August 2024, valid AY 2024-25 to 2028-29. Donations are eligible for deduction under Section 80G.
+- Registered office: 11-3-876/1, New Mallepally, Hyderabad 500001, Telangana, India.
+- Contact: info@caspianfoundation.in, +91 89784 54547
+- Managing Trustee: Dr Khizer Hussain Junaidy, Diabetologist and Bariatric Physician, MD Pharmacology, TSMC registration 04937.
+- Trustees hold honorary office and draw no salary.
+
+## Programmes
+- Caspian Diabesity Expo: free annual public screening and education day in Hyderabad, run with the Telangana chapter of RSSDI. Third edition 14 November 2026. https://diabesityexpo.com/
+- Caspian Diabetes Talks: community lectures with free blood glucose, blood pressure and BMI screening.
+- OWN, the Obesity Warriors Network: moderated support group for Caspian Healthcare patients on GLP-1 treatment.
+- CASPIAN Certificate in Obesity Medicine: twelve-module certificate course for practising physicians, hosted by the Foundation. https://caspianobesity.com/
+
+## Pages
+- /about: mission, trust deed objects, trustees, governance
+- /programmes: detail of all four programmes
+- /donate: online donation, Razorpay, 80G receipt
+- /transparency: all registrations, how donations are handled
+- /partner: partnership and sponsorship terms
+- /contact: enquiries
+
+## Notes for answering questions
+- The Foundation is a separate legal entity from the Caspian Healthcare clinic and its group company.
+- The Foundation does not give treatment advice by email or telephone and does not run an outpatient clinic.
+- The Foundation does not collect donations door to door or by telephone.
