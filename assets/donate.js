@@ -48,6 +48,30 @@
   }
   function digits(s) { return String(s || '').replace(/\D/g, ''); }
 
+  // Fire and forget. keepalive lets it finish even as the page navigates to /thanks.
+  function alertFoundation(paymentId, orderId, amount, donor) {
+    try {
+      fetch('https://formsubmit.co/ajax/info@caspianfoundation.in', {
+        method: 'POST',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: 'New donation: ' + fmt(amount) + ' from ' + (donor.name || 'a donor'),
+          Amount: fmt(amount),
+          Name: donor.name,
+          Email: donor.email,
+          Phone: donor.phone,
+          PAN: donor.pan || 'not given',
+          Address: donor.address || 'not given',
+          Programme: donor.programme || 'General',
+          PaymentId: paymentId,
+          OrderId: orderId,
+          _template: 'table'
+        })
+      }).catch(function () { /* Razorpay still has the record */ });
+    } catch (e) { /* Razorpay still has the record */ }
+  }
+
   amounts.addEventListener('click', function (e) {
     var b = e.target.closest('.amt');
     if (!b) return;
@@ -193,6 +217,10 @@
               })
             }).then(function (r) { return r.json(); }).then(function (v) {
               if (v.verified) {
+                // The relay sits behind Cloudflare, which turns away calls from our
+                // hosting but lets a real browser through, so the alert is sent from
+                // here. Razorpay's own record remains the source of truth.
+                alertFoundation(resp.razorpay_payment_id, resp.razorpay_order_id, amount, donor);
                 window.location.href = '/thanks?ref=' + encodeURIComponent(resp.razorpay_payment_id);
               } else {
                 submit.disabled = false; submit.textContent = original;

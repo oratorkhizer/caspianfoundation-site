@@ -4,6 +4,7 @@
  "ogtitle": "Contact Caspian Healthcare Foundation",
  "description": "Reach Caspian Healthcare Foundation in Hyderabad to request a screening camp, partner with us, volunteer or ask for our registration documents.",
  "nav": "contact",
+ "head": "<style>.req{color:#b42318;font-weight:700;cursor:help}.field input[aria-invalid=\"true\"],.field textarea[aria-invalid=\"true\"]{border-color:#e08a83;box-shadow:0 0 0 3px rgba(180,35,24,.10)}</style>",
  "foot": "<script src=\"/assets/contact.js\" defer></script>"
 }
 -->
@@ -21,13 +22,14 @@
       <div>
         <form id="contact-form" novalidate>
           <h2>Write to the Foundation</h2>
+          <p class="note" style="margin-bottom:14px">Fields marked <span class="req">*</span> are required.</p>
           <div class="field">
-            <label for="c-name">Your name</label>
-            <input type="text" id="c-name" autocomplete="name" required>
+            <label for="c-name">Your name <span class="req" title="Required">*</span></label>
+            <input type="text" id="c-name" autocomplete="name" required aria-required="true">
           </div>
           <div class="field">
-            <label for="c-email">Email</label>
-            <input type="email" id="c-email" autocomplete="email" required>
+            <label for="c-email">Email <span class="req" title="Required">*</span></label>
+            <input type="email" id="c-email" autocomplete="email" inputmode="email" spellcheck="false" required aria-required="true" placeholder="you@example.com">
           </div>
           <div class="field">
             <label for="c-phone">Mobile number <span class="hint">optional</span></label>
@@ -46,8 +48,8 @@
             </select>
           </div>
           <div class="field">
-            <label for="c-msg">Message</label>
-            <textarea id="c-msg" required></textarea>
+            <label for="c-msg">Message <span class="req" title="Required">*</span></label>
+            <textarea id="c-msg" required aria-required="true"></textarea>
           </div>
           <input type="text" class="hp" id="c-website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div id="c-status" role="status" aria-live="polite"></div>
@@ -59,15 +61,14 @@
         <div class="card">
           <h3>Caspian Healthcare Foundation</h3>
           <p>11-3-876/1, New Mallepally,<br>Hyderabad 500001, Telangana, India</p>
-          <p><strong>Email</strong><br><a href="mailto:info@caspianfoundation.in">info@caspianfoundation.in</a></p>
-          <p><strong>Phone and WhatsApp</strong><br><a href="tel:+918978454547">+91 89784 54547</a></p>
+          <p><a href="mailto:info@caspianfoundation.in">info@caspianfoundation.in</a><br><a href="tel:+918978454547">+91 89784 54547</a></p>
           <p class="note">Registered public charitable trust. PAN AADTC2568A. 80G URN AADTC2568A24HY01.</p>
         </div>
         <div class="card" style="margin-top:20px">
           <h3>Looking for something else</h3>
           <ul class="ticks">
-            <li><a href="https://diabesityexpo.com/" rel="noopener">The Diabesity Expo</a>, for the public event</li>
-            <li><a href="https://caspianobesity.com/" rel="noopener">The obesity medicine course</a>, for doctors</li>
+            <li><a href="https://diabesityexpo.com">The Diabesity Expo</a>, for the public event</li>
+            <li><a href="https://caspianobesity.com">The obesity medicine course</a>, for doctors</li>
             <li><a href="/donate">Donations</a> and 80G receipts</li>
             <li><a href="/transparency">Registration documents</a></li>
           </ul>
