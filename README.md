@@ -10,17 +10,19 @@ so the header, footer and meta tags are defined once. Serverless functions live 
 - `layout.html` the shell
 - `assets/` stylesheet and scripts
 - `img/` photographs, from the Caspian Diabesity Expo 2025
+- `docs/` the two tax approval orders, published as downloads
 - `api/create-order.js` creates a Razorpay order for a donation, amount validated server side
 - `api/verify-payment.js` verifies the Razorpay signature and emails a donation alert
 - `api/enquiry.js` relays the contact form so the inbox address is never in the page source
 
 The build fails on an unreplaced template token or an em dash, on purpose.
+Every `/assets/` reference is rewritten with a short content hash at build time, so a browser can
+never serve a stale script from cache; the cache header is therefore a year and immutable.
 
 ## The approval orders
-`docs/` is optional and is not in this repository by default. Drop
-`CHF-12A-registration-order.pdf` and `CHF-80G-approval-order.pdf` into `docs/`, redeploy, and the
-download block on the transparency page reveals itself (app.js HEAD-checks the 80G file and keeps the
-block hidden until it is really there, so the page never offers a download that 404s).
+`docs/` holds `CHF-12A-registration-order.pdf` and `CHF-80G-approval-order.pdf`. app.js HEAD-checks the
+80G file and keeps the download block on the transparency page hidden until it is really there, so the
+page never offers a download that 404s.
 
 The trust deed and the PAN card are deliberately NOT published: the deed scan carries the trustees'
 photographs, thumb impressions, signatures, partial Aadhaar numbers and a home address.
@@ -52,10 +54,11 @@ SBI New Delhi Main Branch and nowhere else, so a second payment route would be n
 | --- | --- |
 | `RAZORPAY_KEY_ID` | Razorpay key id of the Caspian Healthcare Foundation account |
 | `RAZORPAY_KEY_SECRET` | Razorpay key secret, never committed |
-| `ALERT_EMAIL` | inbox that receives donation alerts and contact form enquiries |
+| `ALERT_EMAIL` | inbox that receives donation alerts and contact form enquiries, currently info@caspianfoundation.in |
 
 Without the Razorpay variables the donate form reports that donations are not configured.
 The FormSubmit address used by `ALERT_EMAIL` has to be activated once by clicking the link in its first email.
+Changing the variable only takes effect on the next deployment.
 
 ## Facts that must stay accurate
 - PAN AADTC2568A
@@ -69,7 +72,8 @@ the end of that period, so the paperwork should start around September 2027.
 ## Email
 The domain's mail runs on Google Workspace as a user alias domain of caspianobesity.com, so
 info@caspianfoundation.in lands in the same mailbox. DNS lives in GoDaddy: five Google MX records,
-SPF `v=spf1 include:_spf.google.com ~all`, and DKIM at `google._domainkey` once generated.
+SPF `v=spf1 include:_spf.google.com ~all`, DMARC at `_dmarc`, and DKIM at `google._domainkey`
+(2048 bit, selector `google`, generated 15 September 2026 and authenticating).
 
 ## House rules
 No em dashes anywhere in output. Indian English. Never publish an impact number that cannot be evidenced.
