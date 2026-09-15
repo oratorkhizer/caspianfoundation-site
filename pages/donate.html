@@ -4,6 +4,7 @@
  "ogtitle": "Donate to Caspian Healthcare Foundation",
  "description": "One thousand rupees screens one person completely. Donate to Caspian Healthcare Foundation and get an 80G receipt. Secure payment by Razorpay.",
  "nav": "",
+ "head": "<style>.req{color:#b42318;font-weight:700;cursor:help}.phone-row{display:grid;grid-template-columns:86px 1fr;gap:10px}.phone-row #d-cc{text-align:center}.msg.info{background:#eef4fb;color:var(--navy-2);border:1px solid var(--line-2)}.field input[aria-invalid=\"true\"]{border-color:#e08a83;box-shadow:0 0 0 3px rgba(180,35,24,.10)}</style>",
  "foot": "<script src=\"https://checkout.razorpay.com/v1/checkout.js\" defer></script><script src=\"/assets/donate.js\" defer></script>"
 }
 -->
@@ -44,29 +45,33 @@
             <button type="button" class="amt" data-amt="custom" aria-pressed="false"><b>Other</b><span>Any amount you choose</span></button>
           </div>
           <div class="field" id="custom-wrap" hidden>
-            <label for="custom-amt">Amount in rupees</label>
+            <label for="custom-amt">Amount in rupees <span class="req" title="Required">*</span> <span class="hint">Rs 100 to Rs 10,00,000</span></label>
             <input type="number" id="custom-amt" min="100" max="1000000" step="1" inputmode="numeric" placeholder="e.g. 5000">
           </div>
 
           <p class="kicker" style="margin-top:22px">Your details</p>
+          <p class="note" style="margin-top:-8px;margin-bottom:14px">Fields marked <span class="req">*</span> are required.</p>
           <div class="field">
-            <label for="d-name">Full name</label>
-            <input type="text" id="d-name" name="name" autocomplete="name" required>
+            <label for="d-name">Full name <span class="req" title="Required">*</span></label>
+            <input type="text" id="d-name" name="name" autocomplete="name" required aria-required="true">
           </div>
           <div class="field">
-            <label for="d-email">Email <span class="hint">receipt is sent here</span></label>
-            <input type="email" id="d-email" name="email" autocomplete="email" required>
+            <label for="d-email">Email <span class="req" title="Required">*</span> <span class="hint">receipt is sent here</span></label>
+            <input type="email" id="d-email" name="email" autocomplete="email" inputmode="email" spellcheck="false" required aria-required="true" placeholder="you@example.com">
           </div>
           <div class="field">
-            <label for="d-phone">Mobile number</label>
-            <input type="tel" id="d-phone" name="phone" autocomplete="tel" required>
+            <label for="d-phone">Mobile number <span class="req" title="Required">*</span> <span class="hint">country code and number</span></label>
+            <div class="phone-row">
+              <input type="text" id="d-cc" name="cc" value="+91" maxlength="5" inputmode="tel" spellcheck="false" aria-label="Country dialling code">
+              <input type="tel" id="d-phone" name="phone" autocomplete="tel" inputmode="tel" required aria-required="true" placeholder="9876543210">
+            </div>
           </div>
           <div class="field">
             <label for="d-pan">PAN <span class="hint">optional, needed for the 80G deduction to be reported against you</span></label>
-            <input type="text" id="d-pan" name="pan" maxlength="10" autocapitalize="characters" spellcheck="false">
+            <input type="text" id="d-pan" name="pan" maxlength="10" autocapitalize="characters" spellcheck="false" placeholder="ABCDE1234F">
           </div>
           <div class="field">
-            <label for="d-address">Address <span class="hint">optional, required on the receipt if you want the 80G deduction</span></label>
+            <label for="d-address">Address <span class="hint">optional, required on the receipt if you claim the 80G deduction</span></label>
             <input type="text" id="d-address" name="address" autocomplete="street-address">
           </div>
           <div class="field">
@@ -82,8 +87,8 @@
           <input type="text" class="hp" id="d-website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="field">
             <label style="font-weight:400;font-size:.88rem;display:flex;gap:10px;align-items:flex-start">
-              <input type="checkbox" id="d-consent" style="width:auto;margin-top:5px" required>
-              <span>I agree that Caspian Healthcare Foundation may contact me about this donation and its receipt, and I have read the <a href="/privacy">privacy policy</a>.</span>
+              <input type="checkbox" id="d-consent" style="width:auto;margin-top:5px" required aria-required="true">
+              <span>I agree that Caspian Healthcare Foundation may contact me about this donation and its receipt, and I have read the <a href="/privacy">privacy policy</a>. <span class="req" title="Required">*</span></span>
             </label>
           </div>
           <div id="d-msg" role="status" aria-live="polite"></div>
@@ -122,6 +127,13 @@
             </table>
           </div>
           <p class="note" style="margin-top:14px">After transferring, send the reference, your name, address and PAN to <a href="mailto:info@caspianfoundation.in">info@caspianfoundation.in</a> so we can issue your 80G receipt. Cheques are drawn in favour of Caspian Healthcare Foundation.</p>
+        </div>
+        <div class="card" style="margin-top:20px">
+          <h3>Donating from outside India</h3>
+          <p>This page takes Indian cards, UPI and netbanking. It does not take foreign cards, because Razorpay does not offer international payments to charitable organisations.</p>
+          <p>There is a second reason, and it is the more important one. Under the Foreign Contribution (Regulation) Act, a trust may accept money from a foreign source only if it holds FCRA registration. The Foundation does not hold one, so we cannot accept a donation from a foreign citizen, including a person of Indian origin who has taken another citizenship.</p>
+          <p>An NRI who still holds an Indian passport is not a foreign source. A donation from your own savings is welcome, and you can enter your overseas mobile number with its country code above.</p>
+          <p class="note">If you want to support the work and none of this fits your situation, write to <a href="mailto:info@caspianfoundation.in">info@caspianfoundation.in</a> and we will tell you honestly what we can and cannot accept.</p>
         </div>
         <div class="card" style="margin-top:20px">
           <h3>A word on safety</h3>
