@@ -1,0 +1,134 @@
+<!--meta
+{
+ "title": "Donate | Caspian Healthcare Foundation",
+ "ogtitle": "Donate to Caspian Healthcare Foundation",
+ "description": "One thousand rupees screens one person completely. Donate to Caspian Healthcare Foundation and get an 80G receipt. Secure payment by Razorpay.",
+ "nav": "",
+ "foot": "<script src=\"https://checkout.razorpay.com/v1/checkout.js\" defer></script><script src=\"/assets/donate.js\" defer></script>"
+}
+-->
+<section class="hero" style="padding-top:52px;padding-bottom:52px">
+  <div class="wrap">
+    <div class="hero-split">
+      <div>
+        <span class="eyebrow">Donate</span>
+        <h1>One thousand rupees. One person, screened.</h1>
+        <p class="lede">Not a share of a campaign, not a rounding line in a budget. One person tested properly, with a doctor to explain what the numbers mean.</p>
+        <div class="hero-facts" style="margin-top:26px">
+          <span><b>80G</b> URN AADTC2568A24HY01</span>
+          <span><b>Razorpay</b> secure payment</span>
+          <span><b>Receipt</b> emailed to you</span>
+        </div>
+      </div>
+      <figure class="photo" style="aspect-ratio:3/2">
+        <img src="/img/expo-screening.webp" alt="A visitor being attended to at a free screening stall run by the Foundation" width="1000" height="667" fetchpriority="high">
+        <figcaption>Free screening at the Caspian Diabesity Expo 2025</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <form id="donate-form" novalidate>
+          <h2>Make a donation</h2>
+          <p class="kicker" style="margin-top:18px">Choose an amount</p>
+          <div class="amounts" id="amounts">
+            <button type="button" class="amt" data-amt="1000" aria-pressed="true"><b>Rs 1,000</b><span>One full screening</span></button>
+            <button type="button" class="amt" data-amt="3000" aria-pressed="false"><b>Rs 3,000</b><span>A family screened</span></button>
+            <button type="button" class="amt" data-amt="10000" aria-pressed="false"><b>Rs 10,000</b><span>A screening bench at a camp</span></button>
+            <button type="button" class="amt" data-amt="25000" aria-pressed="false"><b>Rs 25,000</b><span>A neighbourhood talk with screening</span></button>
+            <button type="button" class="amt" data-amt="50000" aria-pressed="false"><b>Rs 50,000</b><span>An expo screening station</span></button>
+            <button type="button" class="amt" data-amt="custom" aria-pressed="false"><b>Other</b><span>Any amount you choose</span></button>
+          </div>
+          <div class="field" id="custom-wrap" hidden>
+            <label for="custom-amt">Amount in rupees</label>
+            <input type="number" id="custom-amt" min="100" max="1000000" step="1" inputmode="numeric" placeholder="e.g. 5000">
+          </div>
+
+          <p class="kicker" style="margin-top:22px">Your details</p>
+          <div class="field">
+            <label for="d-name">Full name</label>
+            <input type="text" id="d-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="d-email">Email <span class="hint">receipt is sent here</span></label>
+            <input type="email" id="d-email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="d-phone">Mobile number</label>
+            <input type="tel" id="d-phone" name="phone" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="d-pan">PAN <span class="hint">optional, needed for the 80G deduction to be reported against you</span></label>
+            <input type="text" id="d-pan" name="pan" maxlength="10" autocapitalize="characters" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="d-address">Address <span class="hint">optional, required on the receipt if you want the 80G deduction</span></label>
+            <input type="text" id="d-address" name="address" autocomplete="street-address">
+          </div>
+          <div class="field">
+            <label for="d-programme">Apply my donation to <span class="hint">optional</span></label>
+            <select id="d-programme" name="programme">
+              <option value="">Wherever it is needed most</option>
+              <option>Free screening camps</option>
+              <option>Caspian Diabesity Expo</option>
+              <option>Caspian Diabetes Talks</option>
+              <option>Physician training</option>
+            </select>
+          </div>
+          <input type="text" class="hp" id="d-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="field">
+            <label style="font-weight:400;font-size:.88rem;display:flex;gap:10px;align-items:flex-start">
+              <input type="checkbox" id="d-consent" style="width:auto;margin-top:5px" required>
+              <span>I agree that Caspian Healthcare Foundation may contact me about this donation and its receipt, and I have read the <a href="/privacy">privacy policy</a>.</span>
+            </label>
+          </div>
+          <div id="d-msg" role="status" aria-live="polite"></div>
+          <button class="btn btn-gold" id="d-submit" type="submit" style="width:100%;font-size:1.05rem;padding:15px 22px">Donate Rs 1,000</button>
+          <p class="note" style="margin-top:12px;text-align:center">Payments are processed by Razorpay. Your card and banking details never reach us.</p>
+        </form>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3>What your donation buys</h3>
+          <p>We cost the work at what it takes to deliver, not at what reads well. A complete screening, consumables, staff time and the doctor who sits down and explains the result, is about one thousand rupees a head.</p>
+          <ul class="ticks">
+            <li>Blood glucose, blood pressure, height, weight and waist</li>
+            <li>The result explained face to face, not handed over on paper</li>
+            <li>A referral for anyone whose numbers need proper follow up</li>
+          </ul>
+        </div>
+        <div class="card" style="margin-top:20px">
+          <h3>Your receipt and 80G</h3>
+          <p>Every donation gets a receipt showing the amount, the date, the Foundation's PAN and our 80G approval number, <strong>AADTC2568A24HY01</strong>, valid for assessment years 2024-25 to 2028-29.</p>
+          <p>Give your PAN and address if you want the deduction reported against you in the Foundation's annual statement of donations to the Income Tax Department.</p>
+          <p><a href="/transparency">See all our registrations</a></p>
+        </div>
+        <div class="card" style="margin-top:20px">
+          <h3>Bank transfer, NEFT and CSR</h3>
+          <p>For a direct transfer, a cheque, or a corporate contribution, these are the Foundation's own account details. The account is separate from every other Caspian entity.</p>
+          <div class="table-wrap" style="border:0">
+            <table style="min-width:0">
+              <tr><th>Account name</th><td>Caspian Healthcare Foundation</td></tr>
+              <tr><th>Bank</th><td>Axis Bank Ltd</td></tr>
+              <tr><th>Branch</th><td>Vijayanagar Colony, Hyderabad 500057</td></tr>
+              <tr><th>Account number</th><td>923020032864403</td></tr>
+              <tr><th>IFSC</th><td>UTIB0004427</td></tr>
+              <tr><th>PAN</th><td>AADTC2568A</td></tr>
+            </table>
+          </div>
+          <p class="note" style="margin-top:14px">After transferring, send the reference, your name, address and PAN to <a href="mailto:info@caspianfoundation.in">info@caspianfoundation.in</a> so we can issue your 80G receipt. Cheques are drawn in favour of Caspian Healthcare Foundation.</p>
+        </div>
+        <div class="card" style="margin-top:20px">
+          <h3>A word on safety</h3>
+          <p>We do not collect donations by telephone or door to door, and we never ask for a card number, an OTP or a UPI PIN. Our account details are the ones printed on this page and nowhere else. If anything differs, call <a href="tel:+918978454547">+91 89784 54547</a> before you pay.</p>
+          <p class="note">Donations in kind, such as equipment, consumables or venue support, are welcome. Write to us and we will tell you what is needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
