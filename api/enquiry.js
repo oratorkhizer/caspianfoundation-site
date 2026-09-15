@@ -25,7 +25,14 @@ export default async function handler(req, res) {
   try {
     const r = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(to), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        // FormSubmit refuses calls that arrive without a browser-like context.
+        Origin: 'https://caspianfoundation.in',
+        Referer: 'https://caspianfoundation.in/contact',
+        'User-Agent': 'Mozilla/5.0 (compatible; CaspianFoundationSite/1.0; +https://caspianfoundation.in)'
+      },
       body: JSON.stringify({
         _subject: 'Foundation enquiry: ' + (clean(body.topic, 80) || 'General'),
         Name: name,
@@ -36,7 +43,10 @@ export default async function handler(req, res) {
         _template: 'table'
       })
     });
-    if (!r.ok) { throw new Error('relay failed'); }
+    if (!r.ok) {
+      console.error('formsubmit refused: HTTP ' + r.status + ' ' + (await r.text()).slice(0, 300));
+      throw new Error('relay failed');
+    }
     return res.status(200).json({ ok: true });
   } catch (e) {
     return res.status(502).json({ ok: false, error: 'Could not send' });

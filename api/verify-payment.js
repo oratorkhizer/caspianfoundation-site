@@ -32,9 +32,15 @@ export default async function handler(req, res) {
   if (alertTo) {
     const d = (body && body.donor) || {};
     try {
-      await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(alertTo), {
+      const r = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(alertTo), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Origin: 'https://caspianfoundation.in',
+          Referer: 'https://caspianfoundation.in/donate',
+          'User-Agent': 'Mozilla/5.0 (compatible; CaspianFoundationSite/1.0; +https://caspianfoundation.in)'
+        },
         body: JSON.stringify({
           _subject: 'New donation: Rs ' + clean(body.amount, 12) + ' from ' + (clean(d.name, 120) || 'a donor'),
           Amount: 'Rs ' + clean(body.amount, 12),
@@ -50,7 +56,12 @@ export default async function handler(req, res) {
           _template: 'table'
         })
       });
-    } catch (e) { /* ignore */ }
+      if (!r.ok) {
+        console.error('donation alert refused: HTTP ' + r.status + ' ' + (await r.text()).slice(0, 300));
+      }
+    } catch (e) {
+      console.error('donation alert failed: ' + (e && e.message));
+    }
   }
 
   return res.status(200).json({ verified: true, paymentId });
