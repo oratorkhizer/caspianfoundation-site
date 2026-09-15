@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const root = dirname(new URL(import.meta.url).pathname);
 const out = join(root, 'public');
@@ -108,6 +109,19 @@ mkdirSync(out, { recursive: true });
 const navKeys = ['about', 'programmes', 'transparency', 'partner', 'contact'];
 const files = readdirSync(join(root, 'pages')).filter((f) => f.endsWith('.html'));
 
+/* Cache busting. Browsers hold on to /assets/ files, so a fix to a script can
+   sit unseen behind a stale copy. Every reference to /assets/<file> gets a short
+   content hash appended, which changes the URL whenever the file changes and
+   leaves it alone when it does not. */
+const assetHash = {};
+for (const a of readdirSync(join(root, 'assets'))) {
+  assetHash[a] = createHash('sha1').update(readFileSync(join(root, 'assets', a))).digest('hex').slice(0, 10);
+}
+function version(html) {
+  return html.replace(/\/assets\/([A-Za-z0-9._-]+)/g, (whole, file) =>
+    assetHash[file] ? '/assets/' + file + '?v=' + assetHash[file] : whole);
+}
+
 for (const f of files) {
   const raw = readFileSync(join(root, 'pages', f), 'utf8');
   const m = raw.match(/^<!--meta([\s\S]*?)-->\s*/);
@@ -129,8 +143,8 @@ for (const f of files) {
   }
   const leftover = html.match(/\{\{[a-z-]+\}\}/);
   if (leftover) throw new Error('unreplaced token in ' + f + ': ' + leftover[0]);
-  if (html.includes('\u2014')) throw new Error('em dash found in ' + f);
-  writeFileSync(join(out, f), html);
+  if (html.includes('—')) throw new Error('em dash found in ' + f);
+  writeFileSync(join(out, f), version(html));
 }
 
 for (const asset of ['assets', 'favicon.svg', 'site.webmanifest', 'robots.txt', 'sitemap.xml', 'llms.txt']) {
