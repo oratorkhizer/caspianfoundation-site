@@ -1,4 +1,4 @@
-// Creates a Razorpay order for a donation to Caspian Healthcare Foundation.
+// Creates a Razorpay Payment Link for a donation to Caspian Healthcare Foundation.
 // Amount is decided here, on the server, from a validated rupee value.
 
 const MIN_RUPEES = 100;
@@ -64,8 +64,13 @@ export default async function handler(req, res) {
 
   const receipt = 'CHF' + Date.now().toString(36).toUpperCase();
 
+  // Hosted Razorpay Payment Link (opens on razorpay.com). Unlike the embedded checkout it does not
+  // depend on caspianfoundation.in being on Razorpay's registered-website list, which blocked
+  // donations on 16 Sep 2026. Razorpay sends the donor back to /api/payment-return when paid.
+  const customer = { name, email };
+  if (phone) customer.contact = phone;
   try {
-    const r = await fetch('https://api.razorpay.com/v1/orders', {
+    const r = await fetch('https://api.razorpay.com/v1/payment_links', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +79,12 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         amount: rupees * 100,
         currency: 'INR',
-        receipt,
+        accept_partial: false,
+        reference_id: receipt,
+        description: 'Donation to Caspian Healthcare Foundation' + (clean(donor.programme, 80) ? ' (' + clean(donor.programme, 80) + ')' : ''),
+        customer,
+        notify: { sms: false, email: false },
+        reminder_enable: false,
         notes: {
           donor_name: name,
           donor_email: email,
@@ -83,14 +93,16 @@ export default async function handler(req, res) {
           donor_address: address,
           programme: clean(donor.programme, 80) || 'General',
           purpose: 'Donation to Caspian Healthcare Foundation'
-        }
+        },
+        callback_url: 'https://caspianfoundation.in/api/payment-return',
+        callback_method: 'get'
       })
     });
-    const order = await r.json();
-    if (!r.ok || !order.id) {
-      return res.status(502).json({ error: (order && order.error && order.error.description) || 'Payment gateway did not accept the request.' });
+    const link = await r.json();
+    if (!r.ok || !link.id || !link.short_url) {
+      return res.status(502).json({ error: (link && link.error && link.error.description) || 'Payment gateway did not accept the request.' });
     }
-    return res.status(200).json({ orderId: order.id, amount: order.amount, currency: order.currency, keyId, receipt });
+    return res.status(200).json({ url: link.short_url, linkId: link.id, amount: rupees * 100, currency: 'INR', receipt });
   } catch (e) {
     return res.status(502).json({ error: 'Could not reach the payment gateway. Please try again.' });
   }

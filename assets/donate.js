@@ -48,30 +48,6 @@
   }
   function digits(s) { return String(s || '').replace(/\D/g, ''); }
 
-  // Fire and forget. keepalive lets it finish even as the page navigates to /thanks.
-  function alertFoundation(paymentId, orderId, amount, donor) {
-    try {
-      fetch('https://formsubmit.co/ajax/info@caspianfoundation.in', {
-        method: 'POST',
-        keepalive: true,
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: 'New donation: ' + fmt(amount) + ' from ' + (donor.name || 'a donor'),
-          Amount: fmt(amount),
-          Name: donor.name,
-          Email: donor.email,
-          Phone: donor.phone,
-          PAN: donor.pan || 'not given',
-          Address: donor.address || 'not given',
-          Programme: donor.programme || 'General',
-          PaymentId: paymentId,
-          OrderId: orderId,
-          _template: 'table'
-        })
-      }).catch(function () { /* Razorpay still has the record */ });
-    } catch (e) { /* Razorpay still has the record */ }
-  }
-
   amounts.addEventListener('click', function (e) {
     var b = e.target.closest('.amt');
     if (!b) return;
@@ -180,62 +156,14 @@
       });
     })
       .then(function (res) {
-        if (!res.ok || !res.j.orderId) {
+        if (!res.ok || !res.j.url) {
           var e = new Error(res.j.error || 'We could not start the payment just now. Please try again in a moment.');
           e.friendly = true;
           throw e;
         }
-        var d = res.j;
-        var rzp = new window.Razorpay({
-          key: d.keyId,
-          order_id: d.orderId,
-          amount: d.amount,
-          currency: 'INR',
-          name: 'Caspian Healthcare Foundation',
-          description: 'Donation' + (donor.programme ? ' for ' + donor.programme : ''),
-          image: 'https://caspianfoundation.in/chf-logo.png',
-          prefill: { name: donor.name, email: donor.email, contact: donor.phone },
-          notes: { programme: donor.programme || 'General', pan: donor.pan || '' },
-          theme: { color: '#0e2643' },
-          modal: {
-            ondismiss: function () {
-              submit.disabled = false; submit.textContent = original;
-              msg('info', 'You closed the payment window, so nothing has been charged. Your details are still filled in if you want to try again.');
-            }
-          },
-          handler: function (resp) {
-            submit.textContent = 'Confirming...';
-            fetch('/api/verify-payment', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: resp.razorpay_order_id,
-                razorpay_payment_id: resp.razorpay_payment_id,
-                razorpay_signature: resp.razorpay_signature,
-                donor: donor,
-                amount: amount
-              })
-            }).then(function (r) { return r.json(); }).then(function (v) {
-              if (v.verified) {
-                // The relay sits behind Cloudflare, which turns away calls from our
-                // hosting but lets a real browser through, so the alert is sent from
-                // here. Razorpay's own record remains the source of truth.
-                alertFoundation(resp.razorpay_payment_id, resp.razorpay_order_id, amount, donor);
-                window.location.href = '/thanks?ref=' + encodeURIComponent(resp.razorpay_payment_id);
-              } else {
-                submit.disabled = false; submit.textContent = original;
-                msg('err', 'We could not confirm that payment automatically. Please email info@caspianfoundation.in with payment reference ' + resp.razorpay_payment_id + ' and we will sort it out.');
-              }
-            }).catch(function () {
-              window.location.href = '/thanks?ref=' + encodeURIComponent(resp.razorpay_payment_id);
-            });
-          }
-        });
-        rzp.on('payment.failed', function () {
-          submit.disabled = false; submit.textContent = original;
-          msg('err', 'That payment did not go through. You can try again, or use another method.');
-        });
-        rzp.open();
+        // Razorpay's hosted payment page opens next; it brings the donor back to /thanks when paid.
+        submit.textContent = 'Taking you to Razorpay...';
+        window.location.href = res.j.url;
       })
       .catch(function (err) {
         submit.disabled = false; submit.textContent = original;
@@ -243,6 +171,14 @@
           'We could not reach the payment gateway. Please check your connection and try again, or write to info@caspianfoundation.in.');
       });
   });
+
+  // Back from Razorpay's hosted page without a completed payment.
+  try {
+    var st = new URLSearchParams(location.search).get('payment');
+    if (st === 'incomplete') { msg('info', 'The payment was not completed, so nothing has been charged. You can choose an amount and try again.'); }
+    if (st === 'unverified') { msg('err', 'We could not confirm that payment automatically. Please email info@caspianfoundation.in with payment reference ' + (new URLSearchParams(location.search).get('ref') || '') + ' and we will sort it out.'); }
+    if (st && form.scrollIntoView) form.scrollIntoView({ block: 'start' });
+  } catch (e) { /* older browsers */ }
 
   label();
 })();
