@@ -184,3 +184,5 @@ figure{margin:0}
 .card-photo img{aspect-ratio:3/2;object-fit:cover;width:100%}
 .card-photo .inner{padding:22px 24px}
 .card-photo .inner h3{margin-top:0}
+/* identity pass 2 */
+.eyebrow{letter-spacing:.02em;text-transform:none;font-size:.84rem}.kicker{font-family:"Crimson Pro",Georgia,serif;font-style:italic;font-weight:600;letter-spacing:0;text-transform:none;font-size:1.12rem}.card .tag{letter-spacing:.02em;text-transform:none;font-size:.82rem}
