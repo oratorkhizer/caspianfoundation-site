@@ -186,3 +186,5 @@ figure{margin:0}
 .card-photo .inner h3{margin-top:0}
 /* identity pass 2 */
 .eyebrow{letter-spacing:.02em;text-transform:none;font-size:.84rem}.kicker{font-family:"Crimson Pro",Georgia,serif;font-style:italic;font-weight:600;letter-spacing:0;text-transform:none;font-size:1.12rem}.card .tag{letter-spacing:.02em;text-transform:none;font-size:.82rem}
+/* identity pass 3 */
+section:not(.sec-navy) .band{background:#E6F4F1!important;background-image:none!important;border:0!important;border-left:8px solid #6B1E3A!important;border-radius:6px!important;box-shadow:none!important}section:not(.sec-navy) .band::before,section:not(.sec-navy) .band::after{display:none!important}section:not(.sec-navy) .band :is(h2,h3,p,span,strong,em):not(a):not(a *){color:#4A1328!important}section:not(.sec-navy) .band .btn-gold{background:#6B1E3A!important;background-image:none!important;opacity:1!important;color:#fff!important;box-shadow:none!important}section:not(.sec-navy) .band .btn-ghost-light{color:#6B1E3A!important;border-color:#6B1E3A!important}
