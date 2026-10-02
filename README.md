@@ -77,3 +77,16 @@ SPF `v=spf1 include:_spf.google.com ~all`, DMARC at `_dmarc`, and DKIM at `googl
 
 ## House rules
 No em dashes anywhere in output. Indian English. Never publish an impact number that cannot be evidenced.
+
+## Diabesity Changemakers Award (from 3 October 2026)
+- Pages: `/award` (rules, categories, rubric), `/award-apply` (doctor entry, Rs 999), `/award-nominate`
+  (free patient nomination), `/award-jury` (jury application), `/award-thanks`, `/award-desk` (secretariat, noindex).
+- `api/award.js` routes by `?op=` (upload, apply, nominate, juror, desk); `api/award-return.js` is the Razorpay
+  Payment Link callback; shared helpers and the deadlines live in `api/_award-lib.js`.
+- Data and files are in the **caspianobesity** Supabase project: tables `award_entries`, `award_nominations`,
+  `award_jurors`, `award_config`, private bucket `award-files`. All access goes through the `award-api` edge
+  function (source in `supabase/award-api/index.ts`), which holds the service role. The site calls it with
+  `AWARD_TOKEN` (Vercel env); only the token's SHA-256 is stored in `award_config`.
+- Files go browser to storage through one-time signed upload URLs and open from the desk through ten-minute links.
+- The desk passcode is set on the first visit to `/award-desk` and stored as PBKDF2 in `award_config`.
+- Payment uses the same Foundation Razorpay key as donations (Payment Links, so no website approval is needed).
