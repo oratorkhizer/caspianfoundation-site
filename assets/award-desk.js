@@ -219,6 +219,20 @@
   $('f-status').addEventListener('change', render);
   $('f-search').addEventListener('input', render);
   $('refresh').addEventListener('click', function () { load(); });
+  $('chpass').addEventListener('click', function () {
+    var box = document.getElementById('chpass-box');
+    if (box) { box.remove(); return; }
+    box = el('div', { id: 'chpass-box', class: 'card', style: 'max-width:460px;margin:0 0 14px' });
+    box.innerHTML = '<div class="field"><label for="np1">New passcode, at least 8 characters</label><input id="np1" type="password" autocomplete="new-password"></div><div class="field"><label for="np2">Type it again</label><input id="np2" type="password" autocomplete="new-password"></div><button class="btn btn-navy btn-sm" type="button" id="np-save">Change passcode</button> <span class="note" id="np-msg"></span>';
+    $('table').parentNode.parentNode.insertBefore(box, $('table').parentNode);
+    $('np-save').addEventListener('click', function () {
+      var a = $('np1').value, b = $('np2').value;
+      if (a.length < 8) { $('np-msg').textContent = 'Use at least 8 characters.'; return; }
+      if (a !== b) { $('np-msg').textContent = 'The two do not match.'; return; }
+      api({ op: 'change-passcode', next: a }).then(function () { pass = a; remember(); $('np-msg').textContent = 'Changed. Use the new passcode from now on.'; })
+        .catch(function (er) { $('np-msg').textContent = er.message; });
+    });
+  });
 
   $('csv').addEventListener('click', function () {
     var list = rows();
