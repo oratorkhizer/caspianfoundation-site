@@ -1,0 +1,65 @@
+<!--meta
+{
+ "title": "Award desk | Caspian Healthcare Foundation",
+ "ogtitle": "Award desk",
+ "description": "Secretariat desk for the Diabesity Changemakers Award.",
+ "nav": "",
+ "head": "<meta name=\"robots\" content=\"noindex,nofollow\"><style>.desk-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.desk-tabs button{border:1.5px solid var(--line-2);background:#fff;border-radius:999px;padding:8px 16px;font:inherit;font-weight:600;color:var(--navy);cursor:pointer}.desk-tabs button[aria-selected=true]{background:var(--navy);color:#fff;border-color:var(--navy)}.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}.tile b{display:block;font-family:'Crimson Pro',Georgia,serif;font-size:1.8rem;color:var(--navy);line-height:1}.tile span{font-size:.8rem;color:var(--muted)}.dtable tr{cursor:pointer}.dtable tr:hover td{background:#fff8fa}.pill{display:inline-block;font-size:.74rem;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--paper-2);color:var(--navy);border:1px solid var(--line-2);white-space:nowrap}.pill.ok{background:#e8f5ee;color:var(--good);border-color:#bfe0cd}.pill.warn{background:#fff8e6;color:#7a5a00;border-color:#f0d58a}.pill.bad{background:#fdeceb;color:#b42318;border-color:#f4c9c5}.detail{position:fixed;inset:0;background:rgba(40,10,22,.45);display:flex;justify-content:flex-end;z-index:300}.detail[hidden]{display:none}.detail .panel{background:#fff;width:min(720px,100%);height:100%;overflow:auto;padding:24px}.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:.92rem}.kv dt{color:var(--muted)}.kv dd{margin:0;white-space:pre-wrap;word-break:break-word}@media(max-width:600px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:8px}}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.toolbar select,.toolbar input{width:auto;padding:8px 12px}</style>",
+ "foot": "<script src=\"/assets/award-desk.js\" defer></script>"
+}
+-->
+<section style="padding-top:36px">
+  <div class="wrap">
+    <p class="kicker">Diabesity Changemakers Award 2026</p>
+    <h1 style="font-size:2rem">Award desk</h1>
+
+    <div id="gate" class="card" style="max-width:460px">
+      <h3 id="gate-title">Enter the desk passcode</h3>
+      <p class="note" id="gate-note">This desk shows every entry, nomination and jury application.</p>
+      <form id="gate-form">
+        <div class="field"><label for="pass">Passcode</label><input id="pass" type="password" autocomplete="current-password" required></div>
+        <div class="field" id="pass2-wrap" hidden><label for="pass2">Type it again</label><input id="pass2" type="password" autocomplete="new-password"></div>
+        <div id="gate-msg" role="status"></div>
+        <button class="btn btn-navy" type="submit" id="gate-btn">Open the desk</button>
+      </form>
+    </div>
+
+    <div id="desk" hidden>
+      <div class="tiles" id="tiles"></div>
+      <div class="desk-tabs" role="tablist">
+        <button type="button" role="tab" data-tab="entries" aria-selected="true">Doctor entries</button>
+        <button type="button" role="tab" data-tab="nominations" aria-selected="false">Patient nominations</button>
+        <button type="button" role="tab" data-tab="jurors" aria-selected="false">Jury applications</button>
+      </div>
+      <div class="toolbar">
+        <select id="f-status" aria-label="Filter"></select>
+        <input id="f-search" type="search" placeholder="Search name, city, reference" aria-label="Search">
+        <button class="btn btn-ghost btn-sm" type="button" id="csv">Download CSV</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="refresh">Refresh</button>
+        <span class="note" id="count"></span>
+      </div>
+      <div class="table-wrap"><table class="dtable" id="table"></table></div>
+      <p class="note" style="margin-top:14px">Entries marked "awaiting payment" were saved but the Rs 999 was not completed. Call them if the details look genuine. Click any row to see everything and change its status.</p>
+    </div>
+  </div>
+</section>
+
+<div class="detail" id="detail" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="d-title">
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
+      <h2 id="d-title" style="font-size:1.5rem;margin:0"></h2>
+      <button class="btn btn-ghost btn-sm" type="button" id="d-close">Close</button>
+    </div>
+    <div id="d-files" style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0"></div>
+    <div class="card" style="margin:14px 0;box-shadow:none">
+      <div class="two">
+        <div class="field"><label for="d-status" id="d-status-label">Status</label><select id="d-status"></select></div>
+        <div class="field" id="d-pay-wrap"><label>Payment</label><div id="d-pay" style="padding-top:10px"></div></div>
+      </div>
+      <div class="field"><label for="d-notes">Secretariat notes</label><textarea id="d-notes" rows="3"></textarea></div>
+      <button class="btn btn-navy btn-sm" type="button" id="d-save">Save</button>
+      <span class="note" id="d-msg" style="margin-left:10px"></span>
+    </div>
+    <dl class="kv" id="d-fields"></dl>
+  </div>
+</div>

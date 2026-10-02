@@ -106,7 +106,7 @@ const layout = readFileSync(join(root, 'layout.html'), 'utf8');
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
-const navKeys = ['about', 'programmes', 'transparency', 'partner', 'contact'];
+const navKeys = ['about', 'programmes', 'award', 'transparency', 'partner', 'contact'];
 const files = readdirSync(join(root, 'pages')).filter((f) => f.endsWith('.html'));
 
 /* Cache busting. Browsers hold on to /assets/ files, so a fix to a script can

@@ -1,0 +1,58 @@
+<!--meta
+{
+ "title": "Nominate your doctor | Diabesity Changemakers Award 2026",
+ "ogtitle": "Did a doctor change your life? Nominate them.",
+ "description": "Patients and families can nominate a doctor for the Patients' Choice Award, part of the Diabesity Changemakers Award 2026. Free. Nominations close 26 October 2026.",
+ "nav": "award",
+ "foot": "<script src=\"/assets/award.js\" defer></script>"
+}
+-->
+<section class="hero" style="padding-top:52px;padding-bottom:52px">
+  <div class="wrap">
+    <span class="eyebrow">Patients' Choice Award &middot; free</span>
+    <h1>Did a doctor change your life? Tell us.</h1>
+    <p class="lede">If a doctor helped you or someone in your family live better with diabetes or obesity, nominate them. It is free and takes five minutes. We will call you to hear the story.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:860px">
+    <form id="award-form" data-kind="nominate" novalidate>
+      <fieldset class="formsec">
+        <legend>About you</legend>
+        <div class="two">
+          <div class="field"><label for="nominator_name">Your name <span class="req">*</span></label><input id="nominator_name" name="nominator_name" autocomplete="name" required></div>
+          <div class="field"><label for="relation">You are <span class="req">*</span></label>
+            <select id="relation" name="relation" required>
+              <option value="">Choose one</option>
+              <option>The patient</option>
+              <option>A family member or caregiver</option>
+            </select></div>
+          <div class="field"><label for="nominator_phone">Mobile number <span class="req">*</span> <span class="hint">we will call you</span></label>
+            <div class="phone-row"><input id="cc" name="cc" value="+91" maxlength="5" inputmode="tel" aria-label="Country code"><input id="nominator_phone" name="nominator_phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="9876543210"></div></div>
+          <div class="field"><label for="nominator_email">Email <span class="hint">optional</span></label><input id="nominator_email" name="nominator_email" type="email" autocomplete="email" spellcheck="false"></div>
+          <div class="field"><label for="ncity">Your city</label><input id="ncity" name="city" autocomplete="address-level2"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>About the doctor</legend>
+        <div class="two">
+          <div class="field"><label for="doctor_name">Doctor's name <span class="req">*</span></label><input id="doctor_name" name="doctor_name" required placeholder="e.g. Dr Anitha Rao"></div>
+          <div class="field"><label for="doctor_place">Hospital or clinic <span class="req">*</span></label><input id="doctor_place" name="doctor_place" required></div>
+          <div class="field"><label for="doctor_city">City <span class="req">*</span></label><input id="doctor_city" name="doctor_city" required></div>
+          <div class="field"><label for="since_year">Treating since <span class="hint">year, if you remember</span></label><input id="since_year" name="since_year" type="number" min="1970" max="2026" inputmode="numeric"></div>
+        </div>
+        <div class="field"><label for="story">What did the doctor do, and what changed for you? <span class="req">*</span> <span class="hint">in your own words, any language written in English letters is fine</span></label>
+          <textarea id="story" name="story" rows="7" required data-minwords="30"></textarea></div>
+        <p class="note">Please do not upload or type medical reports, hospital numbers or other private details. We only need the story.</p>
+      </fieldset>
+
+      <div class="check"><input type="checkbox" id="consent" name="consent" required><label for="consent">The Foundation may call me to hear this story and to check it. My name will not be published without my permission. <span class="req">*</span></label></div>
+      <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div id="form-msg" role="status" aria-live="polite"></div>
+      <button class="btn btn-navy" id="submit" type="submit" style="width:100%;font-size:1.05rem;padding:15px 22px">Send my nomination</button>
+      <p class="note" style="margin-top:12px;text-align:center">Nominations close on 26 October 2026. The number of nominations a doctor receives helps shortlisting only. The story decides.</p>
+    </form>
+  </div>
+</section>

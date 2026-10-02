@@ -1,0 +1,91 @@
+<!--meta
+{
+ "title": "Apply to the jury | Diabesity Changemakers Award 2026",
+ "ogtitle": "Serve on the jury of the Diabesity Changemakers Award 2026",
+ "description": "Senior doctors and academics in diabetes, obesity and public health can apply to serve on the jury of the Diabesity Changemakers Award 2026. Applications close 18 October 2026.",
+ "nav": "award",
+ "foot": "<script src=\"/assets/award.js\" defer></script>"
+}
+-->
+<section class="hero" style="padding-top:52px;padding-bottom:52px">
+  <div class="wrap">
+    <span class="eyebrow">Diabesity Changemakers Award 2026 &middot; jury</span>
+    <h1>Help us judge the work.</h1>
+    <p class="lede">The jury is chosen through open applications, so the jury itself is selected on merit. The role is honorary, online, and takes about six to eight hours between 27 October and 9 November.</p>
+    <div class="hero-facts">
+      <span><b>Applications close</b> 18 October 2026</span>
+      <span><b>Jury published</b> by 22 October</span>
+      <span><b>No fee</b> to apply</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="wrap">
+    <div class="grid g3">
+      <div class="card"><h3>Who can apply</h3><p>Registered medical practitioners with at least ten years of practice after postgraduation in diabetology, endocrinology, internal medicine or a related field. Senior academics in public health, epidemiology or biostatistics with diabetes or obesity work are also welcome.</p></div>
+      <div class="card"><h3>How jurors are chosen</h3><p>Standing in the field, a spread of expertise (clinical, academic and data), a spread across regions of India, and no conflict with likely entrants. The convenor may also invite jurors directly if needed.</p></div>
+      <div class="card"><h3>What jurors receive</h3><p>A certificate of appreciation from the Foundation, your name on the published jury list, and acknowledgement at the felicitation on World Diabetes Day. Jurors may not enter the award in the same year.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:860px">
+    <form id="award-form" data-kind="juror" novalidate>
+      <fieldset class="formsec">
+        <legend>About you</legend>
+        <div class="two">
+          <div class="field"><label for="name">Full name <span class="req">*</span></label><input id="name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="qualification">Qualifications <span class="req">*</span></label><input id="qualification" name="qualification" required placeholder="e.g. MBBS, MD, DM"></div>
+          <div class="field"><label for="speciality">Speciality</label><input id="speciality" name="speciality"></div>
+          <div class="field"><label for="pg_year">Year of postgraduation <span class="req">*</span></label><input id="pg_year" name="pg_year" type="number" min="1960" max="2026" inputmode="numeric" required></div>
+          <div class="field"><label for="reg_no">Registration number <span class="hint">for doctors</span></label><input id="reg_no" name="reg_no"></div>
+          <div class="field"><label for="council">Medical council <span class="hint">for doctors</span></label><select id="council" name="council" data-councils data-optional></select></div>
+          <div class="field"><label for="designation">Current designation <span class="req">*</span></label><input id="designation" name="designation" required placeholder="e.g. Professor of Medicine"></div>
+          <div class="field"><label for="institution">Institution <span class="req">*</span></label><input id="institution" name="institution" autocomplete="organization" required></div>
+          <div class="field"><label for="city">City <span class="req">*</span></label><input id="city" name="city" autocomplete="address-level2" required></div>
+          <div class="field"><label for="state">State</label><input id="state" name="state" autocomplete="address-level1"></div>
+          <div class="field"><label for="phone">Mobile number <span class="req">*</span></label>
+            <div class="phone-row"><input id="cc" name="cc" value="+91" maxlength="5" inputmode="tel" aria-label="Country code"><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div></div>
+          <div class="field"><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" autocomplete="email" required spellcheck="false"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>Your expertise</legend>
+        <p class="lead">Choose all that apply. <span class="req">*</span></p>
+        <div class="two" id="expertise">
+          <div class="check"><input type="checkbox" id="x1" value="Clinical diabetology"><label for="x1">Clinical diabetology</label></div>
+          <div class="check"><input type="checkbox" id="x2" value="Obesity medicine"><label for="x2">Obesity medicine</label></div>
+          <div class="check"><input type="checkbox" id="x3" value="Endocrinology"><label for="x3">Endocrinology</label></div>
+          <div class="check"><input type="checkbox" id="x4" value="Internal medicine"><label for="x4">Internal medicine</label></div>
+          <div class="check"><input type="checkbox" id="x5" value="Paediatric diabetes"><label for="x5">Paediatric diabetes</label></div>
+          <div class="check"><input type="checkbox" id="x6" value="Public health or epidemiology"><label for="x6">Public health or epidemiology</label></div>
+          <div class="check"><input type="checkbox" id="x7" value="Biostatistics or research methods"><label for="x7">Biostatistics or research methods</label></div>
+          <div class="check"><input type="checkbox" id="x8" value="Medical education"><label for="x8">Medical education</label></div>
+        </div>
+        <div class="field"><label for="roles">Teaching, research, editorial or society roles <span class="hint">brief, optional</span></label><textarea id="roles" name="roles" rows="4"></textarea></div>
+        <div class="field"><label for="conflicts">Possible conflicts <span class="hint">people or institutions likely to enter that you work with closely, optional</span></label><textarea id="conflicts" name="conflicts" rows="3"></textarea></div>
+        <div class="field"><label for="linkedin">LinkedIn or profile page <span class="hint">optional</span></label><input id="linkedin" name="linkedin" type="url" inputmode="url" placeholder="https://"></div>
+        <div class="field filebox">
+          <label for="cv">CV, two pages <span class="req">*</span> <span class="hint">PDF, up to 5 MB</span></label>
+          <input type="file" id="cv" data-file="juror-cv" accept="application/pdf" required>
+          <div class="fstate" aria-live="polite"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>Declarations</legend>
+        <div class="check"><input type="checkbox" id="j1" data-decl="not_entering" required><label for="j1">I will not enter the award in 2026, and I am not a Foundation trustee or the immediate family of one.</label></div>
+        <div class="check"><input type="checkbox" id="j2" data-decl="conflicts" required><label for="j2">I will declare any conflict and step out of any entry where I know the applicant.</label></div>
+        <div class="check"><input type="checkbox" id="j3" data-decl="time" required><label for="j3">I can give about six to eight hours online between 27 October and 9 November 2026.</label></div>
+        <div class="check"><input type="checkbox" id="j4" data-decl="confidential" required><label for="j4">I will keep entries and scores confidential, and I agree to the <a href="/privacy" target="_blank" rel="noopener">privacy policy</a>.</label></div>
+      </fieldset>
+
+      <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div id="form-msg" role="status" aria-live="polite"></div>
+      <button class="btn btn-navy" id="submit" type="submit" style="width:100%;font-size:1.05rem;padding:15px 22px">Send my application</button>
+    </form>
+  </div>
+</section>

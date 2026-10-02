@@ -1,0 +1,109 @@
+<!--meta
+{
+ "title": "Enter your work | Diabesity Changemakers Award 2026",
+ "ogtitle": "Enter the Diabesity Changemakers Award 2026",
+ "description": "Enter your outcomes audit, practice innovation or teaching case for the Diabesity Changemakers Award 2026. Rs 999 per entry. Entries close 26 October 2026.",
+ "nav": "award",
+ "foot": "<script src=\"/assets/award.js\" defer></script>"
+}
+-->
+<section class="hero" style="padding-top:52px;padding-bottom:52px">
+  <div class="wrap">
+    <span class="eyebrow">Diabesity Changemakers Award 2026</span>
+    <h1>Enter your work.</h1>
+    <p class="lede">Five short steps. Keep your summary and one supporting PDF ready. Your draft is kept on this device as you type, so you can come back to it.</p>
+    <div class="hero-facts">
+      <span><b>Fee</b> Rs 999 per entry</span>
+      <span><b>Closes</b> 26 October 2026, 11:59 pm IST</span>
+      <span><b>Read first</b> <a href="/award#rules" style="color:#fff">the rules</a></span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="max-width:860px">
+    <form id="award-form" data-kind="apply" novalidate>
+      <fieldset class="formsec">
+        <legend>1. Category</legend>
+        <p class="lead">Choose one. To enter two categories, submit two separate entries with different work.</p>
+        <div class="choice" role="radiogroup" aria-label="Category">
+          <label><input type="radio" name="category" value="outcomes" required><b>Outcomes</b>An audit of real patient outcomes from your practice.</label>
+          <label><input type="radio" name="category" value="innovation"><b>Practice Innovation</b>A system or model that improved care.</label>
+          <label><input type="radio" name="category" value="teaching"><b>Teaching Case</b>One case with a clear lesson for other doctors.</label>
+        </div>
+        <div class="check" style="margin-top:16px">
+          <input type="checkbox" id="young" name="young">
+          <label for="young">Also consider me for the <b>Young Changemaker Award</b>. My highest qualification is from 2019 or later.</label>
+        </div>
+        <div class="field" id="qual-year-wrap" hidden style="max-width:280px">
+          <label for="qual_year">Year of highest qualification <span class="req">*</span></label>
+          <input type="number" id="qual_year" name="qual_year" min="2019" max="2026" inputmode="numeric" placeholder="e.g. 2021">
+        </div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>2. About you</legend>
+        <p class="lead">These details are seen only by the secretariat, never by the jury.</p>
+        <div class="two">
+          <div class="field"><label for="name">Full name <span class="req">*</span> <span class="hint">as on your registration</span></label><input id="name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="qualification">Qualifications <span class="req">*</span></label><input id="qualification" name="qualification" required placeholder="e.g. MBBS, MD (General Medicine)"></div>
+          <div class="field"><label for="speciality">Speciality</label><input id="speciality" name="speciality" placeholder="e.g. Diabetology"></div>
+          <div class="field"><label for="reg_no">Registration number <span class="req">*</span></label><input id="reg_no" name="reg_no" required></div>
+          <div class="field"><label for="council">Medical council <span class="req">*</span></label>
+            <select id="council" name="council" required data-councils></select></div>
+          <div class="field"><label for="institution">Hospital, clinic or institution</label><input id="institution" name="institution" autocomplete="organization"></div>
+          <div class="field"><label for="city">City <span class="req">*</span></label><input id="city" name="city" autocomplete="address-level2" required></div>
+          <div class="field"><label for="state">State</label><input id="state" name="state" autocomplete="address-level1"></div>
+          <div class="field"><label for="phone">Mobile number <span class="req">*</span></label>
+            <div class="phone-row"><input id="cc" name="cc" value="+91" maxlength="5" inputmode="tel" aria-label="Country code"><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="9876543210"></div></div>
+          <div class="field"><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" autocomplete="email" required spellcheck="false"></div>
+        </div>
+        <div class="field filebox">
+          <label for="photo">Your photograph <span class="hint">optional, JPG or PNG, up to 2 MB, used only if you are a finalist</span></label>
+          <input type="file" id="photo" data-file="entry-photo" accept="image/jpeg,image/png,image/webp">
+          <div class="fstate" aria-live="polite"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>3. Your work</legend>
+        <div class="blindnote"><b>Keep it blind.</b> Do not write your name, hospital or city anywhere in this section or in the PDF. Remove every patient identifier.</div>
+        <div class="field"><label for="title">Title of the work <span class="req">*</span></label><input id="title" name="title" maxlength="200" required placeholder="e.g. Twelve-month outcomes of a structured weight programme in a district clinic"></div>
+        <p class="note" style="margin-bottom:12px">Four headings, <b>500 words in all</b>.</p>
+        <div class="field"><label for="problem">The problem <span class="req">*</span> <span class="hint">what needed solving, and for whom</span></label><textarea id="problem" name="problem" data-words required rows="4"></textarea></div>
+        <div class="field"><label for="method">What was done <span class="req">*</span> <span class="hint">the method, the case or the model</span></label><textarea id="method" name="method" data-words required rows="5"></textarea></div>
+        <div class="field"><label for="results">Results <span class="req">*</span> <span class="hint">with numbers, follow up and drop outs</span></label><textarea id="results" name="results" data-words required rows="5"></textarea></div>
+        <div class="field"><label for="learning">What other doctors can learn <span class="req">*</span></label><textarea id="learning" name="learning" data-words required rows="3"></textarea></div>
+        <p class="counter" id="wordcount">0 of 500 words</p>
+        <div class="field" id="team-wrap"><label for="team">Team members <span class="hint">optional, names and roles, for team entries</span></label><input id="team" name="team" maxlength="600"></div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>4. Supporting PDF</legend>
+        <p class="lead">One PDF, up to six pages and 5 MB: data tables, charts, the protocol, or the case details. No patient identifiers, and no name or hospital of yours.</p>
+        <div class="field filebox">
+          <label for="pdf">Supporting PDF <span class="req">*</span></label>
+          <input type="file" id="pdf" data-file="entry-pdf" accept="application/pdf" required>
+          <div class="fstate" aria-live="polite"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="formsec">
+        <legend>5. Declarations</legend>
+        <div class="check"><input type="checkbox" id="d1" data-decl="own_work" required><label for="d1">This is my own work, or my team's work that I lead, done in India within the last three years.</label></div>
+        <div class="check"><input type="checkbox" id="d2" data-decl="deidentified" required><label for="d2">All patient data in the summary and PDF is de-identified.</label></div>
+        <div class="check"><input type="checkbox" id="d3" data-decl="consent_ethics" required><label for="d3">Patient consent or ethics committee cover is in place where it is needed.</label></div>
+        <div class="check"><input type="checkbox" id="d4" data-decl="no_conflict" required><label for="d4">I am not a Foundation trustee, a Caspian Healthcare staff member or consultant, a juror, or the immediate family of one.</label></div>
+        <div class="check"><input type="checkbox" id="d5" data-decl="rules" required><label for="d5">I have read the <a href="/award#rules" target="_blank" rel="noopener">rules</a> and the <a href="/privacy" target="_blank" rel="noopener">privacy policy</a>. I understand the Rs 999 fee is a processing fee with no bearing on selection.</label></div>
+      </fieldset>
+
+      <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="feebox">
+        <div><span class="note">Entry processing fee</span><br><b>Rs 999</b></div>
+        <div class="note" style="max-width:420px">You will pay on Razorpay's secure page. UPI, cards and netbanking are accepted. Your entry reference appears once payment is complete.</div>
+      </div>
+      <div id="form-msg" role="status" aria-live="polite"></div>
+      <button class="btn btn-navy" id="submit" type="submit" style="width:100%;font-size:1.05rem;padding:15px 22px">Save entry and pay Rs 999</button>
+    </form>
+  </div>
+</section>
