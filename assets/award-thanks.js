@@ -6,7 +6,7 @@
   function set(id, text) { var e = document.getElementById(id); if (e) e.textContent = text; }
   var T = {
     entry: ['Your entry is in.', 'Payment received. Your entry is with the secretariat. Razorpay has emailed your payment receipt.',
-      'The secretariat checks your registration and eligibility, then removes your name before the jury sees the entry. Scoring runs from 27 October to 5 November. Finalists are told by 6 November.'],
+      'The secretariat checks your registration and eligibility, then assigns two jurors who have no conflict with you. Scoring runs from 27 October to 5 November. Finalists are told by 6 November.'],
     nomination: ['Thank you for nominating your doctor.', 'Your story has reached us. It costs you nothing, and it may mean a great deal to the doctor.',
       'If the nomination is shortlisted, someone from the Foundation will call you to hear the story in your own words. Please keep your phone with you after 26 October.'],
     juror: ['Thank you for offering your time.', 'Your application to the jury has been received.',
