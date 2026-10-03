@@ -5,9 +5,13 @@
  "description": "Secretariat desk for the Diabesity Changemakers Award.",
  "nav": "",
  "head": "<meta name=\"robots\" content=\"noindex,nofollow\"><style>.desk-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.desk-tabs button{border:1.5px solid var(--line-2);background:#fff;border-radius:999px;padding:8px 16px;font:inherit;font-weight:600;color:var(--navy);cursor:pointer}.desk-tabs button[aria-selected=true]{background:var(--navy);color:#fff;border-color:var(--navy)}.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}.tile b{display:block;font-family:'Crimson Pro',Georgia,serif;font-size:1.8rem;color:var(--navy);line-height:1}.tile span{font-size:.8rem;color:var(--muted)}.dtable tr{cursor:pointer}.dtable tr:hover td{background:#fff8fa}.pill{display:inline-block;font-size:.74rem;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--paper-2);color:var(--navy);border:1px solid var(--line-2);white-space:nowrap}.pill.ok{background:#e8f5ee;color:var(--good);border-color:#bfe0cd}.pill.warn{background:#fff8e6;color:#7a5a00;border-color:#f0d58a}.pill.bad{background:#fdeceb;color:#b42318;border-color:#f4c9c5}.detail{position:fixed;inset:0;background:rgba(40,10,22,.45);display:flex;justify-content:flex-end;z-index:300}.detail[hidden]{display:none}.detail .panel{background:#fff;width:min(720px,100%);height:100%;overflow:auto;padding:24px}.kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:.92rem}.kv dt{color:var(--muted)}.kv dd{margin:0;white-space:pre-wrap;word-break:break-word}@media(max-width:600px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:8px}}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.toolbar select,.toolbar input{width:auto;padding:8px 12px}</style>",
- "foot": "<script src=\"/assets/award-desk.js\" defer></script>"
+ "foot": "<script src=\"/assets/award-desk-scoring.js\" defer></script><script src=\"/assets/award-desk.js\" defer></script>"
 }
 -->
+<nav class="awardnav" aria-label="Award pages"><div class="wrap">
+  <a href="/award">The award</a><a href="/award-apply">Enter your work</a><a href="/award-nominate">Nominate your doctor</a><a href="/award-jury">Apply to the jury</a><span class="sp"></span><a href="/award-score" class="minor">Jury scoring</a><a href="/award-desk" class="minor" aria-current="page">Award desk</a>
+</div></nav>
+
 <section style="padding-top:36px">
   <div class="wrap">
     <p class="kicker">Diabesity Changemakers Award 2026</p>
@@ -29,8 +33,12 @@
       <div class="desk-tabs" role="tablist">
         <button type="button" role="tab" data-tab="entries" aria-selected="true">Doctor entries</button>
         <button type="button" role="tab" data-tab="nominations" aria-selected="false">Patient nominations</button>
+        <button type="button" role="tab" data-tab="stories" aria-selected="false">Expo story nominations</button>
         <button type="button" role="tab" data-tab="jurors" aria-selected="false">Jury applications</button>
+        <button type="button" role="tab" data-tab="scoring" aria-selected="false">Scoring</button>
       </div>
+      <div id="flash" role="status" aria-live="polite"></div>
+      <div id="listview">
       <div class="toolbar">
         <select id="f-status" aria-label="Filter"></select>
         <input id="f-search" type="search" placeholder="Search name, city, reference" aria-label="Search">
@@ -40,7 +48,9 @@
         <span class="note" id="count"></span>
       </div>
       <div class="table-wrap"><table class="dtable" id="table"></table></div>
-      <p class="note" style="margin-top:14px">Entries marked "awaiting payment" were saved but the Rs 999 was not completed. Call them if the details look genuine. Click any row to see everything and change its status.</p>
+      <p class="note" style="margin-top:14px" id="tabnote">Entries marked "awaiting payment" were saved but the Rs 999 was not completed. Call them if the details look genuine. Click any row to see everything and change its status.</p>
+      </div>
+      <div id="scoring" hidden></div>
     </div>
   </div>
 </section>

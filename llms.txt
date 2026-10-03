@@ -21,7 +21,7 @@
 
 ## Pages
 - /about: mission, trust deed objects, trustees, governance
-- /programmes: detail of all four programmes
+- /programmes: detail of all five programmes
 - /award: Diabesity Changemakers Award, rules, categories, rubric; /award-apply, /award-nominate, /award-jury forms
 - /donate: online donation, Razorpay, 80G receipt
 - /transparency: all registrations, how donations are handled

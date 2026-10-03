@@ -214,14 +214,62 @@ async function juror(b, res) {
   return send(res, 200, { ref: made.data.ref });
 }
 
+// Story nominations from diabesityexpo.com/get-involved live in the expo's own database.
+// The desk reads and updates them through two token-gated functions there.
+const EXPO_DB = 'https://ntrlsnudicbdwdcguynz.supabase.co/rest/v1/rpc/';
+const EXPO_ANON = 'sb_publishable_si0ucpO3OLawZMr1ihiuIw_shZbLoIw';
+async function expoRpc(fn, args) {
+  try {
+    const r = await fetch(EXPO_DB + fn, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: EXPO_ANON, Authorization: 'Bearer ' + EXPO_ANON },
+      body: JSON.stringify(Object.assign({ p_token: process.env.AWARD_TOKEN || '' }, args || {}))
+    });
+    const data = await r.json().catch(() => null);
+    return { ok: r.ok, data };
+  } catch (e) {
+    return { ok: false, data: null };
+  }
+}
+
 async function desk(b, res) {
   const op = String(b.op || '');
-  if (!['status', 'setup', 'list', 'update', 'file', 'change-passcode'].includes(op)) return fail(res, 'Unknown operation.');
-  const r = await callAward({
-    action: 'admin', op, passcode: String(b.passcode || '').slice(0, 200),
-    table: b.table, id: b.id, fields: b.fields, path: b.path, next: b.next
-  });
   res.setHeader('Cache-Control', 'no-store');
+  const passcode = String(b.passcode || '').slice(0, 200);
+  if (op === 'story-update') {
+    const c = await callAward({ action: 'admin', op: 'check', passcode });
+    if (!c.ok) return send(res, c.status, c.data);
+    const STAT = ['new', 'contacted', 'shortlisted', 'accepted', 'done', 'declined'];
+    const f = b.fields || {};
+    if (f.status && !STAT.includes(f.status)) return fail(res, 'Bad status.');
+    const u = await expoRpc('award_update_story', { p_id: String(b.id || ''), p_status: f.status || null, p_notes: clean(f.notes, 2000) || null });
+    return u.ok ? send(res, 200, { ok: true }) : fail(res, 'Could not update the expo record.', 502);
+  }
+  if (!['status', 'setup', 'list', 'update', 'file', 'change-passcode', 'scoring', 'assign', 'unassign', 'auto-assign', 'issue-token', 'set-result', 'set-lock'].includes(op)) return fail(res, 'Unknown operation.');
+  const r = await callAward({
+    action: 'admin', op, passcode,
+    table: b.table, id: b.id, fields: b.fields, path: b.path, next: b.next,
+    round: b.round, subject: b.subject, subject_id: b.subject_id, juror_id: b.juror_id,
+    force: !!b.force, result: b.result, finalist: b.finalist, unlocked: !!b.unlocked
+  });
+  if (op === 'list' && r.ok) {
+    const s = await expoRpc('award_stories');
+    r.data.stories = s.ok && Array.isArray(s.data) ? s.data : [];
+    if (!s.ok) r.data.storiesError = 'Could not reach the expo database.';
+  }
+  return send(res, r.ok ? 200 : r.status, r.data);
+}
+
+// Juror scoring page: every call carries the juror's personal token.
+async function score(b, res) {
+  const action = String(b.action || '');
+  if (!['juror_home', 'juror_file', 'juror_conflict', 'juror_score'].includes(action)) return fail(res, 'Unknown operation.');
+  res.setHeader('Cache-Control', 'no-store');
+  const r = await callAward({
+    action, token: String(b.token || '').slice(0, 100), assignment_id: b.assignment_id, which: b.which,
+    note: clean(b.note, 500), scores: b.scores && typeof b.scores === 'object' ? b.scores : {},
+    feedback: clean(b.feedback, 3000), submit: !!b.submit
+  });
   return send(res, r.ok ? 200 : r.status, r.data);
 }
 
@@ -234,6 +282,7 @@ export default async function handler(req, res) {
     case 'nominate': return nominate(b, res);
     case 'juror': return juror(b, res);
     case 'desk': return desk(b, res);
+    case 'score': return score(b, res);
   }
   return fail(res, 'Unknown operation.', 404);
 }

@@ -238,3 +238,11 @@ dl.qa dd{margin:6px 0 0;color:var(--ink)}
 .filebox .fstate{font-size:.84rem;color:var(--muted);margin-top:6px}
 .filebox .fstate.ok{color:var(--good)}
 .msg.info{background:#eef4fb;color:var(--navy-2);border:1px solid var(--line-2)}
+.awardnav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:70px;z-index:50}
+.awardnav .wrap{display:flex;gap:4px;overflow-x:auto;white-space:nowrap;align-items:center;scrollbar-width:none}
+.awardnav .wrap::-webkit-scrollbar{display:none}
+.awardnav a{color:var(--navy);text-decoration:none;font-size:.9rem;font-weight:600;padding:12px 12px}
+.awardnav a[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--navy)}
+.awardnav a.minor{font-weight:500;color:var(--muted);font-size:.84rem}
+.awardnav .sp{flex:1 1 auto;min-width:12px}
+@media(max-width:940px){.awardnav{top:64px}}

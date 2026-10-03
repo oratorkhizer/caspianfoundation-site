@@ -1,0 +1,42 @@
+<!--meta
+{
+ "title": "Jury scoring | Diabesity Changemakers Award 2026",
+ "ogtitle": "Jury scoring",
+ "description": "Scoring page for jurors of the Diabesity Changemakers Award 2026.",
+ "nav": "",
+ "head": "<meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"referrer\" content=\"no-referrer\"><style>.sc-list{display:grid;gap:12px}.sc-item{display:flex;justify-content:space-between;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;font:inherit;width:100%}.sc-item:hover{border-color:var(--navy-3)}.sc-item h3{margin:0 0 2px;font-size:1.08rem}.sc-item p{margin:0;font-size:.86rem;color:var(--muted)}.pill{display:inline-block;font-size:.74rem;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap;background:var(--paper-2);color:var(--navy);border:1px solid var(--line-2)}.pill.ok{background:#e8f5ee;color:var(--good);border-color:#bfe0cd}.pill.warn{background:#fff8e6;color:#7a5a00;border-color:#f0d58a}.pill.bad{background:#fdeceb;color:#b42318;border-color:#f4c9c5}.crit{display:grid;grid-template-columns:1fr 110px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.crit label{font-size:.95rem;color:var(--ink)}.crit label small{display:block;color:var(--muted)}.crit input{text-align:center;font-size:1.1rem;font-weight:700}.totalbar{display:flex;justify-content:space-between;align-items:center;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:16px 0}.totalbar b{font-family:'Crimson Pro',Georgia,serif;font-size:2rem;color:var(--navy)}.sec h4{font-family:'Crimson Pro',Georgia,serif;color:var(--navy);font-size:1.15rem;margin:18px 0 4px}.sec p{white-space:pre-wrap}.prog{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:8px 0 22px}.prog i{display:block;height:100%;background:var(--navy)}@media(max-width:560px){.crit{grid-template-columns:1fr 84px}}</style>",
+ "foot": "<script src=\"/assets/award-score.js\" defer></script>"
+}
+-->
+<nav class="awardnav" aria-label="Award pages"><div class="wrap">
+  <a href="/award">The award</a><a href="/award-apply">Enter your work</a><a href="/award-nominate">Nominate your doctor</a><a href="/award-jury">Apply to the jury</a><span class="sp"></span><a href="/award-score" class="minor" aria-current="page">Jury scoring</a><a href="/award-desk" class="minor">Award desk</a>
+</div></nav>
+
+<section style="padding-top:36px">
+  <div class="wrap" style="max-width:860px">
+    <p class="kicker">Diabesity Changemakers Award 2026</p>
+    <h1 style="font-size:2rem;margin-bottom:6px">Jury scoring</h1>
+    <div id="msg" role="status" aria-live="polite"></div>
+
+    <div id="home" hidden>
+      <p id="hello" class="lede" style="color:var(--ink)"></p>
+      <div class="prog"><i id="prog-bar" style="width:0"></i></div>
+      <div class="card" style="box-shadow:none;margin-bottom:22px">
+        <h3>How to score</h3>
+        <ul class="ticks" style="margin:0">
+          <li>Score each entry against its rubric. The points for each criterion are shown beside it. The total is out of 100.</li>
+          <li>Write three to five lines of feedback. The applicant receives it, so make it specific and kind.</li>
+          <li>You can save a draft and come back. Press <b>Submit</b> when you are done. You can still change a submitted score until the round closes.</li>
+          <li>If you know the applicant personally or work with their institution, press <b>I have a conflict</b>. The secretariat will give the entry to another juror.</li>
+          <li>Do not share entries or scores with anyone. Round 1 closes on 5 November, finalist scoring on 9 November.</li>
+        </ul>
+      </div>
+      <div id="rounds"></div>
+    </div>
+
+    <div id="item" hidden>
+      <button class="btn btn-ghost btn-sm" type="button" id="back">&larr; All my entries</button>
+      <div id="item-body" style="margin-top:18px"></div>
+    </div>
+  </div>
+</section>
