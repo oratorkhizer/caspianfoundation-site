@@ -90,3 +90,9 @@ No em dashes anywhere in output. Indian English. Never publish an impact number 
 - Files go browser to storage through one-time signed upload URLs and open from the desk through ten-minute links.
 - The desk passcode is set on the first visit to `/award-desk` and stored as PBKDF2 in `award_config`.
 - Payment uses the same Foundation Razorpay key as donations (Payment Links, so no website approval is needed).
+- Jury scoring: `/award-score#t=<token>` is each juror's personal page (token issued from the desk's Scoring tab,
+  stored only as SHA-256, valid while the juror is `approved`). Assignments and marks live in `award_assignments`.
+  Rubrics and round close dates (5 and 9 November 2026) are defined in the edge function; the desk can allow late scoring.
+  Final = 60% round 1 average + 40% finalist round average.
+- Expo story nominations (diabesityexpo.com/get-involved) show on the desk through two token-gated functions in the
+  diabesityexpo project, `award_stories` and `award_update_story`; the records stay in the expo database.
