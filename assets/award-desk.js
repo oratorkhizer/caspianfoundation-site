@@ -239,6 +239,18 @@
   $('f-search').addEventListener('input', render);
   $('refresh').addEventListener('click', function () { load(); });
   $('tabnote').textContent = NOTES.entries;
+  $('testmail').addEventListener('click', function () {
+    var box = document.getElementById('tm-box');
+    if (box) { box.remove(); return; }
+    box = el('div', { id: 'tm-box', class: 'card', style: 'max-width:460px;margin:0 0 14px' });
+    box.innerHTML = '<div class="field"><label for="tm-to">Send a test award email to</label><input id="tm-to" type="email" value="info@caspianfoundation.in"></div><button class="btn btn-navy btn-sm" type="button" id="tm-send">Send test</button> <span class="note" id="tm-msg"></span>';
+    $('table').parentNode.parentNode.insertBefore(box, $('table').parentNode);
+    $('tm-send').addEventListener('click', function () {
+      $('tm-msg').textContent = 'Sending...';
+      api({ op: 'test-email', to: $('tm-to').value }).then(function () { $('tm-msg').textContent = 'Sent. Check the inbox (and spam, the first time).'; })
+        .catch(function (er) { $('tm-msg').textContent = er.message; });
+    });
+  });
   $('chpass').addEventListener('click', function () {
     var box = document.getElementById('chpass-box');
     if (box) { box.remove(); return; }

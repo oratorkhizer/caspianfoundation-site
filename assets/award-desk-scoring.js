@@ -81,7 +81,7 @@
               var msg = 'Dear ' + r.juror.name + ', thank you for serving on the jury of the Diabesity Changemakers Award 2026. Your personal scoring page is below. Please do not share it.\n\n' + url + '\n\nRound 1 closes on 5 November. Caspian Healthcare Foundation';
               var wa = el('a', { class: 'btn btn-gold btn-sm', style: 'margin:6px 0 0 6px', target: '_blank', rel: 'noopener', href: 'https://wa.me/' + ph + '?text=' + encodeURIComponent(msg) }, 'Send on WhatsApp');
               td.appendChild(wa);
-              td.appendChild(el('p', { class: 'note', style: 'margin:6px 0 0' }, 'Shown once. Creating a new link cancels this one.'));
+              td.appendChild(el('p', { class: 'note', style: 'margin:6px 0 0' }, (r.emailed ? 'Also emailed to ' + r.emailed + '. ' : 'Not emailed (email sending is off or no address). ') + 'Shown once. Creating a new link cancels this one.'));
             }).catch(function (e) { flash(e.message, true); });
           });
           td.appendChild(lb);

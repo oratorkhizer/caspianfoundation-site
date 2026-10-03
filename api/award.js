@@ -6,7 +6,7 @@
 //   desk      passcode-protected secretariat view, passed through to the award back end
 import {
   SITE, FEE_RUPEES, ENTRIES_CLOSE, JURY_CLOSE, YOUNG_FROM_YEAR, EMAIL, CATEGORY_NAMES,
-  clean, line, words, normalisePhone, body, utm, callAward, alert
+  clean, line, words, normalisePhone, body, utm, callAward, alert, sendEmail, escHtml
 } from './_award-lib.js';
 
 const send = (res, status, data) => res.status(status).json(data);
@@ -161,6 +161,15 @@ async function nominate(b, res) {
     NominatedBy: row.nominator_name + ' (' + row.relation + ')', Phone: row.nominator_phone,
     Email: row.nominator_email || 'not given', Story: row.story
   }, '/award-nominate');
+  if (row.nominator_email) {
+    await sendEmail(row.nominator_email, 'Thank you for nominating your doctor (' + made.data.ref + ')',
+      'Thank you, ' + row.nominator_name,
+      [
+        'Your nomination of <b>' + escHtml(row.doctor_name) + '</b> for the Patients\u2019 Choice Award has reached us. Your reference is <b>' + escHtml(made.data.ref) + '</b>.',
+        'Nominations close on 26 October. If the story is shortlisted, someone from the Foundation will call you on ' + escHtml(row.nominator_phone) + ' to hear it in your own words. Your name is not published without your permission.',
+        'Winners are honoured on World Diabetes Day, 14 November 2026.'
+      ]);
+  }
   return send(res, 200, { ref: made.data.ref });
 }
 
@@ -211,6 +220,13 @@ async function juror(b, res) {
     Reference: made.data.ref, Name: row.name, Qualification: row.qualification, Designation: row.designation + ', ' + row.institution,
     City: row.city, PGYear: row.pg_year, Expertise: row.expertise.join(', '), Phone: row.phone, Email: row.email
   }, '/award-jury');
+  await sendEmail(row.email, 'Your jury application is received (' + made.data.ref + ')',
+    'Thank you for offering your time',
+    [
+      'Dear ' + escHtml(row.name) + ', thank you for applying to serve on the jury of the Diabesity Changemakers Award 2026. Your reference is <b>' + escHtml(made.data.ref) + '</b>.',
+      'The convenor and the trustees approve the jury by 22 October 2026, and we will write to you either way.',
+      'If you are selected, you will receive a personal scoring link and the scoring guide on 27 October. Round 1 scoring runs until 5 November, and finalists present online between 7 and 9 November. The work takes about six to eight hours in all.'
+    ]);
   return send(res, 200, { ref: made.data.ref });
 }
 
@@ -236,6 +252,14 @@ async function desk(b, res) {
   const op = String(b.op || '');
   res.setHeader('Cache-Control', 'no-store');
   const passcode = String(b.passcode || '').slice(0, 200);
+  if (op === 'test-email') {
+    const c = await callAward({ action: 'admin', op: 'check', passcode });
+    if (!c.ok) return send(res, c.status, c.data);
+    if (!process.env.RESEND_API_KEY) return fail(res, 'Email sending is not switched on yet: RESEND_API_KEY is missing in Vercel.', 409);
+    const m = await sendEmail(line(b.to, 160), 'Test email from the award desk', 'This is a test',
+      ['If you can read this, award emails from award@mail.caspianfoundation.in are working. Replies to this email go to info@caspianfoundation.in.']);
+    return m.sent ? send(res, 200, { ok: true }) : fail(res, 'Resend did not accept the email. Check the key and the address.', 502);
+  }
   if (op === 'story-update') {
     const c = await callAward({ action: 'admin', op: 'check', passcode });
     if (!c.ok) return send(res, c.status, c.data);
@@ -252,6 +276,19 @@ async function desk(b, res) {
     round: b.round, subject: b.subject, subject_id: b.subject_id, juror_id: b.juror_id,
     force: !!b.force, result: b.result, finalist: b.finalist, unlocked: !!b.unlocked
   });
+  if (op === 'issue-token' && r.ok && r.data.token && r.data.juror) {
+    const url = SITE + '/award-score#t=' + r.data.token;
+    const m = await sendEmail(r.data.juror.email, 'Your scoring link: Diabesity Changemakers Award 2026',
+      'Your personal scoring page',
+      [
+        'Dear ' + escHtml(r.data.juror.name) + ', thank you for serving on the jury of the Diabesity Changemakers Award 2026.',
+        'The button below opens your personal scoring page, with the entries assigned to you. Please do not forward this email: the link works only for you. If you lose it, the secretariat can send a fresh one.',
+        'Score each entry against its rubric and write three to five lines of feedback; the applicant receives it. If you know an applicant or work with their institution, press <b>I have a conflict</b> and we will reassign the entry.',
+        'Round 1 closes on <b>5 November 2026</b>. Finalist scoring runs from 7 to 9 November.'
+      ],
+      { label: 'Open my scoring page', url });
+    r.data.emailed = m.sent ? r.data.juror.email : null;
+  }
   if (op === 'list' && r.ok) {
     const s = await expoRpc('award_stories');
     r.data.stories = s.ok && Array.isArray(s.data) ? s.data : [];

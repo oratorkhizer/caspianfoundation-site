@@ -1,7 +1,7 @@
 // Razorpay sends the applicant back here after paying the award entry fee by Payment Link.
 // Verifies the signature, marks the entry paid, alerts the Foundation, and shows the confirmation.
 import crypto from 'node:crypto';
-import { SITE, CATEGORY_NAMES, callAward, alert } from './_award-lib.js';
+import { SITE, CATEGORY_NAMES, callAward, alert, sendEmail, escHtml } from './_award-lib.js';
 
 function safe(v, n) {
   return String(v == null ? '' : v).replace(/[^A-Za-z0-9_\-.]/g, '').slice(0, n || 80);
@@ -41,6 +41,15 @@ export default async function handler(req, res) {
       City: e.city, Phone: e.phone, Email: e.email, Title: e.title,
       Amount: 'Rs ' + Math.round((e.amount_paise || 99900) / 100), PaymentId: paymentId
     }, '/award-apply');
+    await sendEmail(e.email, 'Your entry ' + e.ref + ' is received: Diabesity Changemakers Award 2026',
+      'Your entry is in, Dr ' + String(e.name).replace(/^dr\.?\s*/i, ''),
+      [
+        'Thank you for entering the Diabesity Changemakers Award 2026. We have received your entry and the fee of Rs 999.',
+        '<b>Reference:</b> ' + escHtml(e.ref) + '<br><b>Category:</b> ' + escHtml(CATEGORY_NAMES[e.category] || e.category) + (e.young ? ' (also considered for the Young Changemaker Award)' : '') + '<br><b>Title:</b> ' + escHtml(e.title) + '<br><b>Payment ID:</b> ' + escHtml(paymentId),
+        '<b>What happens next.</b> The secretariat checks your registration and eligibility. Two jurors with no conflict with you then score the entry separately, between 27 October and 5 November. Finalists are told by 6 November and present online between 7 and 9 November. Winners are honoured on World Diabetes Day, 14 November 2026.',
+        'Every entrant receives written feedback from the jury and a certificate from the Foundation. Please keep this email, and quote your reference in any message to us.'
+      ],
+      { label: 'About the award', url: SITE + '/award' });
   }
   if (!e) console.error('award-return: mark_paid failed for ' + linkId + ' ' + JSON.stringify(r.data));
   return go(res, '/award-thanks?type=entry&ref=' + encodeURIComponent(referenceId) + '&pay=' + encodeURIComponent(paymentId));
