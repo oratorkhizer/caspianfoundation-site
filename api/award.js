@@ -8,6 +8,7 @@ import {
   SITE, FEE_RUPEES, ENTRIES_CLOSE, JURY_CLOSE, YOUNG_FROM_YEAR, EMAIL, CATEGORY_NAMES,
   clean, line, words, normalisePhone, body, utm, callAward, alert, sendEmail, escHtml
 } from './_award-lib.js';
+import { check, HUMAN_MSG } from './_bot.js';
 
 const send = (res, status, data) => res.status(status).json(data);
 const fail = (res, msg, status) => send(res, status || 400, { error: msg });
@@ -310,10 +311,31 @@ async function score(b, res) {
   return send(res, r.ok ? 200 : r.status, r.data);
 }
 
+// Bot checks for the three public forms (apply, nominate, juror). Uploads, the desk and
+// the scoring page are not covered: uploads happen field by field before the human submit,
+// and the desk and scoring page are passcode or token gated.
+const PUBLIC = {
+  apply: (b) => [b.entry || {}, 'name', 'email'],
+  nominate: (b) => [b.nomination || {}, 'nominator_name', 'nominator_email'],
+  juror: (b) => [b.juror || {}, 'name', 'email']
+};
+const DROPPED = {
+  apply: { url: SITE + '/award-thanks?type=unpaid', ref: '' },
+  nominate: { ref: 'CDA-N' },
+  juror: { ref: 'CDA-J' }
+};
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return fail(res, 'Method not allowed', 405); }
   const b = body(req);
-  switch (String((req.query && req.query.op) || '')) {
+  const op = String((req.query && req.query.op) || '');
+  if (PUBLIC[op]) {
+    const [o, nk, ek] = PUBLIC[op](b);
+    const verdict = await check(req, { honeypot: o.website, ms: b.ms, name: o[nk], email: o[ek], token: b.turnstile });
+    if (verdict === 'drop') return send(res, 200, DROPPED[op]);
+    if (verdict === 'reject') return send(res, 400, { error: HUMAN_MSG, human: false });
+  }
+  switch (op) {
     case 'upload': return upload(b, res);
     case 'apply': return apply(b, res);
     case 'nominate': return nominate(b, res);

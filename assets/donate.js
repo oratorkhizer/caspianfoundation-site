@@ -74,6 +74,8 @@
     el.addEventListener('input', function () { el.removeAttribute('aria-invalid'); });
   });
 
+  var guard = window.BotGuard ? window.BotGuard(document.getElementById('d-ts')) : null;
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     msg('', '');
@@ -144,10 +146,12 @@
     var original = submit.textContent;
     submit.textContent = 'Please wait...';
 
-    fetch('/api/create-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: amount, donor: donor })
+    (guard ? guard.wait() : Promise.resolve('')).then(function (tk) {
+      return fetch('/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: amount, donor: donor, turnstile: tk, ms: guard ? guard.ms() : '' })
+      });
     }).then(function (r) {
       return r.text().then(function (t) {
         var j = {};
@@ -156,6 +160,7 @@
       });
     })
       .then(function (res) {
+        if (guard) guard.reset();
         if (!res.ok || !res.j.url) {
           var e = new Error(res.j.error || 'We could not start the payment just now. Please try again in a moment.');
           e.friendly = true;
@@ -166,6 +171,7 @@
         window.location.href = res.j.url;
       })
       .catch(function (err) {
+        if (guard) guard.reset();
         submit.disabled = false; submit.textContent = original;
         msg('err', (err && err.friendly && err.message) ||
           'We could not reach the payment gateway. Please check your connection and try again, or write to info@caspianfoundation.in.');

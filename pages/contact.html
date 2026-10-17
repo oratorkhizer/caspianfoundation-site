@@ -5,7 +5,7 @@
  "description": "Reach Caspian Healthcare Foundation in Hyderabad to request a screening camp, partner with us, volunteer or ask for our registration documents.",
  "nav": "contact",
  "head": "<style>.req{color:#b42318;font-weight:700;cursor:help}.field input[aria-invalid=\"true\"],.field textarea[aria-invalid=\"true\"]{border-color:#e08a83;box-shadow:0 0 0 3px rgba(180,35,24,.10)}</style>",
- "foot": "<script src=\"/assets/contact.js\" defer></script>"
+ "foot": "<script src=\"/assets/turnstile.js\" defer></script><script src=\"/assets/contact.js\" defer></script>"
 }
 -->
 <section class="hero" style="padding-top:52px;padding-bottom:52px">
@@ -52,6 +52,7 @@
             <textarea id="c-msg" required aria-required="true"></textarea>
           </div>
           <input type="text" class="hp" id="c-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div id="c-ts" style="display:contents"></div>
           <div id="c-status" role="status" aria-live="polite"></div>
           <button class="btn btn-gold" id="c-submit" type="submit">Send message</button>
           <p class="note" style="margin-top:12px">We are a small team. Expect a reply within two to three working days. For anything urgent and clinical, please see a doctor rather than waiting for us.</p>

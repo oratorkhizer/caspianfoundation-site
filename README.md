@@ -55,10 +55,19 @@ SBI New Delhi Main Branch and nowhere else, so a second payment route would be n
 | `RAZORPAY_KEY_ID` | Razorpay key id of the Caspian Healthcare Foundation account |
 | `RAZORPAY_KEY_SECRET` | Razorpay key secret, never committed |
 | `ALERT_EMAIL` | inbox that receives donation alerts and contact form enquiries, currently info@caspianfoundation.in |
+| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret for the group site key. Optional: when unset, Turnstile is skipped and only the honeypot, fill time and name checks run |
 
 Without the Razorpay variables the donate form reports that donations are not configured.
 The FormSubmit address used by `ALERT_EMAIL` has to be activated once by clicking the link in its first email.
 Changing the variable only takes effect on the next deployment.
+
+## Bot protection
+The contact form, the donate form and the three public award forms (entry, nomination, jury) carry a
+hidden honeypot, the time the form was on screen, and an invisible Cloudflare Turnstile check
+(`assets/turnstile.js`). The server side is `api/_bot.js`, called from `api/enquiry.js`,
+`api/create-order.js` and `api/award.js` before anything is saved or any payment link is made.
+Payment returns (`api/payment-return.js`, `api/award-return.js`), uploads, the award desk and the
+scoring page are not touched.
 
 ## Facts that must stay accurate
 - PAN AADTC2568A

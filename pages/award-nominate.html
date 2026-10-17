@@ -4,7 +4,7 @@
  "ogtitle": "Did a doctor change your life? Nominate them.",
  "description": "Patients and families can nominate their doctor, free, for the Patients' Choice Award of the Diabesity Changemakers Award 2026. Closes 26 October 2026.",
  "nav": "award",
- "foot": "<script src=\"/assets/award.js\" defer></script>"
+ "foot": "<script src=\"/assets/turnstile.js\" defer></script><script src=\"/assets/award.js\" defer></script>"
 }
 -->
 <section class="hero" style="padding-top:52px;padding-bottom:52px">
@@ -54,6 +54,7 @@
 
       <div class="check"><input type="checkbox" id="consent" name="consent" required><label for="consent">The Foundation may call me to hear this story and to check it. My name will not be published without my permission. <span class="req">*</span></label></div>
       <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div id="ts" style="display:contents"></div>
       <div id="form-msg" role="status" aria-live="polite"></div>
       <button class="btn btn-navy" id="submit" type="submit" style="width:100%;font-size:1.05rem;padding:15px 22px">Send my nomination</button>
       <p class="note" style="margin-top:12px;text-align:center">Nominations close on 26 October 2026. The number of nominations a doctor receives helps shortlisting only. The story decides.</p>

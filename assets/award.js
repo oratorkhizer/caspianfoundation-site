@@ -150,7 +150,8 @@
     return first;
   }
 
-  /* submit */
+  /* submit: bot checks (Turnstile token and fill time) go with the payload */
+  var guard = window.BotGuard ? window.BotGuard($('ts')) : null;
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     say('');
@@ -202,9 +203,14 @@
     var label = btn.textContent;
     btn.disabled = true;
     btn.textContent = kind === 'apply' ? 'Saving your entry...' : 'Sending...';
-    fetch('/api/award?op=' + op, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    (guard ? guard.wait() : Promise.resolve('')).then(function (tk) {
+      payload.turnstile = tk;
+      payload.ms = guard ? guard.ms() : '';
+      return fetch('/api/award?op=' + op, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Something went wrong. Please try again.'); return j; }); })
       .then(function (j) {
+        if (guard) guard.reset();
         try { localStorage.removeItem(DRAFT); } catch (e) { /* ignore */ }
         if (kind === 'apply') {
           say('Entry ' + j.ref + ' saved. Taking you to Razorpay to pay Rs 999...', 'info');
@@ -214,6 +220,7 @@
         }
       })
       .catch(function (e) {
+        if (guard) guard.reset();
         say(e.message);
         btn.disabled = false;
         btn.textContent = label;

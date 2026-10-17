@@ -5,7 +5,7 @@
  "description": "One thousand rupees screens one person completely. Donate to Caspian Healthcare Foundation and get an 80G receipt. Secure payment by Razorpay.",
  "nav": "",
  "head": "<style>.req{color:#b42318;font-weight:700;cursor:help}.phone-row{display:grid;grid-template-columns:86px 1fr;gap:10px}.phone-row #d-cc{text-align:center}.msg.info{background:#eef4fb;color:var(--navy-2);border:1px solid var(--line-2)}.field input[aria-invalid=\"true\"]{border-color:#e08a83;box-shadow:0 0 0 3px rgba(180,35,24,.10)}</style>",
- "foot": "<script src=\"https://checkout.razorpay.com/v1/checkout.js\" defer></script><script src=\"/assets/donate.js\" defer></script>"
+ "foot": "<script src=\"https://checkout.razorpay.com/v1/checkout.js\" defer></script><script src=\"/assets/turnstile.js\" defer></script><script src=\"/assets/donate.js\" defer></script>"
 }
 -->
 <section class="hero" style="padding-top:52px;padding-bottom:52px">
@@ -85,6 +85,7 @@
             </select>
           </div>
           <input type="text" class="hp" id="d-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div id="d-ts" style="display:contents"></div>
           <div class="field">
             <label style="font-weight:400;font-size:.88rem;display:flex;gap:10px;align-items:flex-start">
               <input type="checkbox" id="d-consent" style="width:auto;margin-top:5px" required aria-required="true">

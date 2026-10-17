@@ -1,4 +1,8 @@
 // Relays a contact form enquiry to the Foundation inbox without exposing the address in the page.
+// Bot checks run first (see ./_bot.js). If FormSubmit turns this server away, the reply says
+// relay: 'browser' and the page posts it to FormSubmit itself, as it did before.
+import { check, HUMAN_MSG } from './_bot.js';
+
 function clean(s, max) {
   return String(s == null ? '' : s).replace(/[\r\n\t]+/g, ' ').trim().slice(0, max);
 }
@@ -11,7 +15,9 @@ export default async function handler(req, res) {
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
 
-  if (clean(body.website, 60)) { return res.status(200).json({ ok: true }); }
+  const verdict = await check(req, { honeypot: body.website, ms: body.ms, name: body.name, email: body.email, token: body.turnstile });
+  if (verdict === 'drop') { return res.status(200).json({ ok: true }); }
+  if (verdict === 'reject') { return res.status(400).json({ ok: false, error: HUMAN_MSG, human: false }); }
 
   const name = clean(body.name, 120);
   const email = clean(body.email, 160);
@@ -20,7 +26,7 @@ export default async function handler(req, res) {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { return res.status(400).json({ ok: false, error: 'Bad email' }); }
 
   const to = process.env.ALERT_EMAIL;
-  if (!to) { return res.status(500).json({ ok: false, error: 'Not configured' }); }
+  if (!to) { return res.status(502).json({ ok: false, error: 'Not configured', relay: 'browser' }); }
 
   try {
     const r = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(to), {
@@ -49,6 +55,6 @@ export default async function handler(req, res) {
     }
     return res.status(200).json({ ok: true });
   } catch (e) {
-    return res.status(502).json({ ok: false, error: 'Could not send' });
+    return res.status(502).json({ ok: false, error: 'Could not send', relay: 'browser' });
   }
 }

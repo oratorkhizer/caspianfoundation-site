@@ -1,5 +1,6 @@
 // Creates a Razorpay Payment Link for a donation to Caspian Healthcare Foundation.
 // Amount is decided here, on the server, from a validated rupee value.
+import { check, HUMAN_MSG } from './_bot.js';
 
 const MIN_RUPEES = 100;
 const MAX_RUPEES = 1000000;
@@ -42,7 +43,11 @@ export default async function handler(req, res) {
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
   const donor = (body && body.donor) || {};
 
-  if (clean(donor.website, 60)) { return res.status(400).json({ error: 'Rejected.' }); }
+  // Bot checks. A dropped request is sent back to the donate page as an unfinished
+  // payment (nothing created, nothing charged), so a real person misjudged can retry.
+  const verdict = await check(req, { honeypot: donor.website, ms: body && body.ms, name: donor.name, email: donor.email, token: body && body.turnstile });
+  if (verdict === 'drop') { return res.status(200).json({ url: 'https://caspianfoundation.in/donate?payment=incomplete' }); }
+  if (verdict === 'reject') { return res.status(400).json({ error: HUMAN_MSG, human: false }); }
 
   const rupees = Math.floor(Number(body && body.amount));
   if (!Number.isFinite(rupees) || rupees < MIN_RUPEES || rupees > MAX_RUPEES) {
