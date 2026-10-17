@@ -12,7 +12,7 @@
     juror: ['Thank you for offering your time.', 'Your application to the jury has been received.',
       'The convenor and the trustees approve the jury by 22 October. We will write to you either way. If you are selected, you receive the scoring guide and your entries on 27 October.'],
     unpaid: ['The payment did not go through.', 'Your entry is saved, but it is not complete until the fee is paid.',
-      'Please write to info@caspianfoundation.in or call +91 89784 54547 with your reference and we will send you a fresh payment link. If money left your account, it will be refunded or matched to your entry.'],
+      'Please write to info@caspianfoundation.in or call +91 89193 41154 with your reference and we will send you a fresh payment link. If money left your account, it will be refunded or matched to your entry.'],
     unverified: ['We could not confirm the payment.', 'Your payment could not be verified automatically. Please do not pay again.',
       'Write to info@caspianfoundation.in with your reference and the payment ID shown below. We will check with Razorpay and confirm within one working day.']
   };

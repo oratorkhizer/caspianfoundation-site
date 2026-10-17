@@ -108,12 +108,12 @@ export function emailHtml(heading, paragraphs, button) {
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #dbe6f2">' +
     '<tr><td style="background:#2a7f62;padding:18px 24px;color:#ffffff;font-size:13px;letter-spacing:.06em">CASPIAN HEALTHCARE FOUNDATION<br><span style="font-size:18px;letter-spacing:0;font-weight:bold">Diabesity Changemakers Award 2026</span></td></tr>' +
     '<tr><td style="padding:26px 24px 10px"><h1 style="margin:0 0 16px;font-size:22px;color:#2a7f62;font-family:Georgia,serif">' + esc(heading) + '</h1>' + ps + btn + '</td></tr>' +
-    '<tr><td style="padding:16px 24px 22px;border-top:1px solid #dbe6f2;font-size:12px;line-height:1.6;color:#5a776d">Caspian Healthcare Foundation, a registered public charitable trust. PAN AADTC2568A.<br>11-3-876/1, New Mallepally, Hyderabad 500001. Questions: reply to this email or call +91 89784 54547.<br><a href="https://caspianfoundation.in/award" style="color:#33916f">caspianfoundation.in/award</a></td></tr>' +
+    '<tr><td style="padding:16px 24px 22px;border-top:1px solid #dbe6f2;font-size:12px;line-height:1.6;color:#5a776d">Caspian Healthcare Foundation, a registered public charitable trust. PAN AADTC2568A.<br>11-3-876/1, New Mallepally, Hyderabad 500001. Questions: reply to this email or call +91 89193 41154.<br><a href="https://caspianfoundation.in/award" style="color:#33916f">caspianfoundation.in/award</a></td></tr>' +
     '</table></td></tr></table></body></html>';
 }
 export function emailText(heading, paragraphs, button) {
   const strip = (s) => String(s).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
-  return [heading, '', ...paragraphs.map(strip), button ? '\n' + button.label + ': ' + button.url : '', '', 'Caspian Healthcare Foundation, Hyderabad. caspianfoundation.in/award. +91 89784 54547'].join('\n');
+  return [heading, '', ...paragraphs.map(strip), button ? '\n' + button.label + ': ' + button.url : '', '', 'Caspian Healthcare Foundation, Hyderabad. caspianfoundation.in/award. +91 89193 41154'].join('\n');
 }
 
 export async function sendEmail(to, subject, heading, paragraphs, button) {

@@ -61,7 +61,7 @@
         f.reset();
         msg('ok', 'Thank you. Your message has reached us and we will reply within two to three working days.');
       } else {
-        msg('err', 'That did not send. Please email info@caspianfoundation.in or call +91 89784 54547.');
+        msg('err', 'That did not send. Please email info@caspianfoundation.in or call +91 89193 41154.');
       }
     }
 
