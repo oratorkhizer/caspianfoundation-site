@@ -16,13 +16,13 @@
 - Caspian Diabesity Expo: annual public screening and education day in Hyderabad. Free entry with registration, with free basic screening (sugar, blood pressure, BMI) and lunch. The 2025 edition was run with the Telangana chapter of RSSDI. The 2026 edition is not being held; the third edition is planned for 2027. https://diabesityexpo.com/
 - Caspian Diabetes Talks: community lectures with free blood glucose, blood pressure and BMI screening.
 - OWN, the Obesity Warriors Network: moderated support group for Caspian Healthcare patients on GLP-1 treatment.
-- Diabesity Changemakers Award: national award for doctors in India for evidence-based work in diabetes and obesity care. Categories: Outcomes, Practice Innovation, Clinical Teaching Case, Young Changemaker, Patients' Choice. Entry fee Rs 999 (patient nominations free). Entries close 26 October 2026; winners honoured 14 November 2026. Scored separately by two independent jurors against a published rubric; jury chosen by open application; jurors with a conflict step out. https://caspianfoundation.in/award
+- Diabesity Changemakers Award: national award for doctors in India. The 2026 edition has been cancelled.
 - CASPIAN Certificate in Obesity Medicine: twelve-module certificate course for practising physicians, hosted by the Foundation. The founding batch began on 30 August 2026 and its enrolment is closed; doctors can register interest in the next batch at https://caspianobesity.com/next . https://caspianobesity.com/
 
 ## Pages
 - /about: mission, trust deed objects, trustees, governance
 - /programmes: detail of all five programmes
-- /award: Diabesity Changemakers Award, rules, categories, rubric; /award-apply, /award-nominate, /award-jury forms
+- /award: update on the cancelled 2026 Diabesity Changemakers Award
 - /donate: online donation, Razorpay, 80G receipt
 - /transparency: all registrations, how donations are handled
 - /partner: partnership and sponsorship terms

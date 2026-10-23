@@ -5,7 +5,7 @@
 //   juror     application to serve on the jury
 //   desk      passcode-protected secretariat view, passed through to the award back end
 import {
-  SITE, FEE_RUPEES, ENTRIES_CLOSE, JURY_CLOSE, YOUNG_FROM_YEAR, EMAIL, CATEGORY_NAMES,
+  SITE, FEE_RUPEES, AWARD_CANCELLED, ENTRIES_CLOSE, JURY_CLOSE, YOUNG_FROM_YEAR, EMAIL, CATEGORY_NAMES,
   clean, line, words, normalisePhone, body, utm, callAward, alert, sendEmail, escHtml
 } from './_award-lib.js';
 import { check, HUMAN_MSG } from './_bot.js';
@@ -23,6 +23,7 @@ async function upload(b, res) {
   if (size <= 0 || size > LIMITS[kind]) {
     return fail(res, 'That file is too large. The limit is ' + (LIMITS[kind] / 1048576) + ' MB.');
   }
+  if (AWARD_CANCELLED) return fail(res, 'The 2026 Diabesity Changemakers Award has been cancelled. Nothing new is being accepted.');
   if (kind !== 'juror-cv' && Date.now() > ENTRIES_CLOSE) return fail(res, 'Entries have closed.');
   if (kind === 'juror-cv' && Date.now() > JURY_CLOSE) return fail(res, 'Jury applications have closed.');
   const r = await callAward({ action: 'upload_url', kind, ext });
@@ -35,6 +36,7 @@ function requireFields(obj, list) {
 }
 
 async function apply(b, res) {
+  if (AWARD_CANCELLED) return fail(res, 'The 2026 Diabesity Changemakers Award has been cancelled. Nothing new is being accepted.');
   if (Date.now() > ENTRIES_CLOSE) return fail(res, 'Entries for 2026 closed on 26 October.');
   const keyId = process.env.RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
@@ -126,6 +128,7 @@ async function apply(b, res) {
 }
 
 async function nominate(b, res) {
+  if (AWARD_CANCELLED) return fail(res, 'The 2026 Diabesity Changemakers Award has been cancelled. Nothing new is being accepted.');
   if (Date.now() > ENTRIES_CLOSE) return fail(res, 'Nominations for 2026 closed on 26 October.');
   const n = b.nomination || {};
   if (line(n.website, 60)) return fail(res, 'Rejected.');
@@ -175,6 +178,7 @@ async function nominate(b, res) {
 }
 
 async function juror(b, res) {
+  if (AWARD_CANCELLED) return fail(res, 'The 2026 Diabesity Changemakers Award has been cancelled. Nothing new is being accepted.');
   if (Date.now() > JURY_CLOSE) return fail(res, 'Jury applications closed on 18 October.');
   const j = b.juror || {};
   if (line(j.website, 60)) return fail(res, 'Rejected.');

@@ -4,6 +4,8 @@
 export const AWARD_API = 'https://itqxfypvrvwplzeeldaz.supabase.co/functions/v1/award-api';
 export const SITE = 'https://caspianfoundation.in';
 export const FEE_RUPEES = 999;
+// 23 Oct 2026: the 2026 award was cancelled. No new entries, nominations, jury applications or uploads.
+export const AWARD_CANCELLED = true;
 
 // Deadlines, 23:59 IST on the day.
 export const ENTRIES_CLOSE = Date.parse('2026-10-26T23:59:59+05:30');
