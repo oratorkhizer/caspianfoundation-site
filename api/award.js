@@ -1,3 +1,4 @@
+import { createHash, randomBytes } from 'node:crypto';
 // Diabesity Changemakers Award: one endpoint, routed by ?op=
 //   upload    signed upload URL for a PDF or photo (the file goes straight to private storage)
 //   apply     doctor entry: stores it, then creates a Rs 999 Razorpay Payment Link
@@ -141,9 +142,11 @@ async function nominate(b, res) {
     doctor_name: line(n.doctor_name, 120),
     doctor_place: line(n.doctor_place, 200),
     doctor_city: line(n.doctor_city, 80),
+    doctor_phone: normalisePhone(n.doctor_phone) || null,
     since_year: Number(n.since_year) || null,
     story: clean(n.story, 5000),
     consent: !!n.consent,
+    not_staff: !!n.not_staff,
     utm: utm(b)
   };
   const missing = requireFields(row, [
@@ -153,10 +156,13 @@ async function nominate(b, res) {
   ]);
   if (missing) return fail(res, missing);
   if (!row.nominator_phone) return fail(res, 'That mobile number does not look right. We will call you on it to hear your story.');
-  if (row.nominator_email && !EMAIL.test(row.nominator_email)) return fail(res, 'That email address does not look right. You can leave it blank.');
+  if (!row.nominator_email || !EMAIL.test(row.nominator_email)) return fail(res, 'Please enter your own email address. We send a link to it to confirm the nomination.');
   if (words(row.story) < 30) return fail(res, 'Please tell us a little more, at least 30 words, about how the doctor helped.');
   if (!row.consent) return fail(res, 'Please tick the box so that we may call you.');
-  if (!row.nominator_email) row.nominator_email = null;
+  if (!row.not_staff) return fail(res, 'Please confirm that you are not the doctor and do not work at their clinic or hospital. Doctors and their staff cannot nominate for Patients\u2019 Choice.');
+  // Email confirmation: the nomination counts only after the nominator clicks the link.
+  const token = randomBytes(24).toString('hex');
+  row.verify_token_hash = createHash('sha256').update(token).digest('hex');
 
   const made = await callAward({ action: 'create_nomination', nomination: row });
   if (!made.ok || !made.data.ref) return fail(res, made.data.error || 'Could not save your nomination. Please try again.', made.status || 502);
@@ -165,14 +171,14 @@ async function nominate(b, res) {
     NominatedBy: row.nominator_name + ' (' + row.relation + ')', Phone: row.nominator_phone,
     Email: row.nominator_email || 'not given', Story: row.story
   }, '/award-nominate');
-  if (row.nominator_email) {
-    await sendEmail(row.nominator_email, 'Thank you for nominating your doctor (' + made.data.ref + ')',
-      'Thank you, ' + row.nominator_name,
+  {
+    await sendEmail(row.nominator_email, 'Please confirm your nomination (' + made.data.ref + ')',
+      'One click to confirm, ' + row.nominator_name,
       [
-        'Your nomination of <b>' + escHtml(row.doctor_name) + '</b> for the Patients\u2019 Choice Award has reached us. Your reference is <b>' + escHtml(made.data.ref) + '</b>.',
-        'Nominations close on 26 October. If the story is shortlisted, someone from the Foundation will call you on ' + escHtml(row.nominator_phone) + ' to hear it in your own words. Your name is not published without your permission.',
-        'Winners are honoured on World Diabetes Day, 14 November 2026.'
-      ]);
+        'Thank you for nominating <b>' + escHtml(row.doctor_name) + '</b> for the Patients\u2019 Choice Award. Your reference is <b>' + escHtml(made.data.ref) + '</b>.',
+        'Please click the button below to confirm that this nomination came from you. Nominations that are not confirmed are not sent to the jury.',
+        'If the story is shortlisted, someone from the Foundation will call you on ' + escHtml(row.nominator_phone) + ' to hear it in your own words. Your name is not published without your permission.'
+      ], { label: 'Confirm my nomination', url: SITE + '/api/award?op=verify&t=' + token });
   }
   return send(res, 200, { ref: made.data.ref });
 }
@@ -329,7 +335,20 @@ const DROPPED = {
   juror: { ref: 'CDA-J' }
 };
 
+async function verifyPage(req, res) {
+  const t = String((req.query && req.query.t) || '');
+  let msg = 'This confirmation link is not valid.';
+  if (/^[0-9a-f]{48}$/.test(t)) {
+    const r = await callAward({ action: 'verify_nomination', hash: createHash('sha256').update(t).digest('hex') });
+    msg = r.ok && r.data.ref ? 'Thank you. Your nomination ' + r.data.ref + ' is confirmed.' : (r.data && r.data.error) || msg;
+  }
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('X-Robots-Tag', 'noindex');
+  res.status(200).send('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nomination confirmation</title><body style="font-family:system-ui,sans-serif;max-width:560px;margin:60px auto;padding:0 20px;color:#1a2b25"><h1 style="font-size:1.4rem">' + escHtml(msg) + '</h1><p><a href="/award" style="color:#33916f">Back to the award page</a></p></body>');
+}
+
 export default async function handler(req, res) {
+  if (req.method === 'GET' && req.query && req.query.op === 'verify') return verifyPage(req, res);
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return fail(res, 'Method not allowed', 405); }
   const b = body(req);
   const op = String((req.query && req.query.op) || '');

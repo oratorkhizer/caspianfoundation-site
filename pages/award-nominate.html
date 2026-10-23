@@ -34,7 +34,7 @@
             </select></div>
           <div class="field"><label for="nominator_phone">Mobile number <span class="req">*</span> <span class="hint">we will call you</span></label>
             <div class="phone-row"><input id="cc" name="cc" value="+91" maxlength="5" inputmode="tel" aria-label="Country code"><input id="nominator_phone" name="nominator_phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="9876543210"></div></div>
-          <div class="field"><label for="nominator_email">Email <span class="hint">optional</span></label><input id="nominator_email" name="nominator_email" type="email" autocomplete="email" spellcheck="false"></div>
+          <div class="field"><label for="nominator_email">Your own email <span class="req">*</span> <span class="hint">we send a link to confirm</span></label><input id="nominator_email" name="nominator_email" type="email" autocomplete="email" spellcheck="false" required></div>
           <div class="field"><label for="ncity">Your city</label><input id="ncity" name="city" autocomplete="address-level2"></div>
         </div>
       </fieldset>
@@ -46,12 +46,14 @@
           <div class="field"><label for="doctor_place">Hospital or clinic <span class="req">*</span></label><input id="doctor_place" name="doctor_place" required></div>
           <div class="field"><label for="doctor_city">City <span class="req">*</span></label><input id="doctor_city" name="doctor_city" required></div>
           <div class="field"><label for="since_year">Treating since <span class="hint">year, if you remember</span></label><input id="since_year" name="since_year" type="number" min="1970" max="2026" inputmode="numeric"></div>
+          <div class="field"><label for="doctor_phone">Clinic or appointments number <span class="hint">if you know it</span></label><input id="doctor_phone" name="doctor_phone" type="tel" inputmode="tel" placeholder="e.g. 9876543210"></div>
         </div>
         <div class="field"><label for="story">What did the doctor do, and what changed for you? <span class="req">*</span> <span class="hint">in your own words, any language written in English letters is fine</span></label>
           <textarea id="story" name="story" rows="7" required data-minwords="30"></textarea></div>
         <p class="note">Please do not upload or type medical reports, hospital numbers or other private details. We only need the story.</p>
       </fieldset>
 
+      <div class="check"><input type="checkbox" id="not_staff" name="not_staff" required><label for="not_staff">I am not this doctor, and I do not work at their clinic or hospital. <span class="req">*</span></label></div>
       <div class="check"><input type="checkbox" id="consent" name="consent" required><label for="consent">The Foundation may call me to hear this story and to check it. My name will not be published without my permission. <span class="req">*</span></label></div>
       <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div id="ts" style="display:contents"></div>

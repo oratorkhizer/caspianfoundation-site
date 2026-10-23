@@ -116,7 +116,7 @@
 
   var COLS = {
     entries: [['ref', 'Ref'], ['created_at', 'Received', fmt], ['name', 'Doctor'], ['category', 'Category', function (v, r) { return CAT[v] + (r.young ? ' + Young' : ''); }], ['city', 'City'], ['title', 'Title'], ['status', 'Payment', null, true], ['screening', 'Screening', null, true]],
-    nominations: [['ref', 'Ref'], ['created_at', 'Received', fmt], ['doctor_name', 'Doctor'], ['doctor_city', 'Doctor city'], ['nominator_name', 'Nominated by'], ['nominator_phone', 'Phone'], ['status', 'Status', null, true]],
+    nominations: [['ref', 'Ref'], ['created_at', 'Received', fmt], ['doctor_name', 'Doctor'], ['doctor_city', 'Doctor city'], ['nominator_name', 'Nominated by'], ['nominator_phone', 'Phone'], ['flags', 'Flags', function (v) { return (v || []).length ? '\u26a0 ' + v.join(', ').replace(/_/g, ' ') : ''; }], ['status', 'Status', null, true]],
     jurors: [['ref', 'Ref'], ['created_at', 'Received', fmt], ['name', 'Name'], ['designation', 'Designation'], ['institution', 'Institution'], ['pg_year', 'PG year'], ['city', 'City'], ['status', 'Status', null, true]],
     stories: [['created_at', 'Received', fmt], ['role', 'Whose story'], ['name', 'Sent by'], ['phone', 'Phone'], ['nominee_name', 'Nominee', function (v, r) { return r.nominating === 'self' ? 'themselves' : (v || ''); }], ['story', 'Story', function (v) { v = v || ''; return v.length > 90 ? v.slice(0, 90) + '...' : v; }], ['status', 'Status', null, true]]
   };
@@ -152,7 +152,7 @@
     institution: 'Institution', city: 'City', state: 'State', phone: 'Phone', email: 'Email', title: 'Title',
     problem: 'The problem', method: 'What was done', results: 'Results', learning: 'What others can learn', team: 'Team',
     amount_paise: 'Amount', rzp_payment_id: 'Razorpay payment', rzp_link_id: 'Razorpay link', paid_at: 'Paid at',
-    nominator_name: 'Nominated by', nominator_phone: 'Phone', nominator_email: 'Email', relation: 'Relation',
+    nominator_name: 'Nominated by', nominator_phone: 'Phone', nominator_email: 'Email', relation: 'Relation', doctor_phone: 'Doctor clinic phone', not_staff: 'Says not doctor or staff', email_verified_at: 'Email confirmed', flags: 'Flags',
     doctor_name: 'Doctor', doctor_place: 'Hospital or clinic', doctor_city: 'Doctor city', since_year: 'Treating since', story: 'Story',
     designation: 'Designation', pg_year: 'Postgraduation year', expertise: 'Expertise', roles: 'Roles', conflicts: 'Declared conflicts',
     linkedin: 'Profile', declarations: 'Declarations', utm: 'Came from', consent: 'Consent to call',

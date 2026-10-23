@@ -184,7 +184,8 @@
         nominator_name: val('nominator_name'), relation: val('relation'), nominator_phone: phone('nominator_phone'),
         nominator_email: val('nominator_email'), city: val('ncity'), doctor_name: val('doctor_name'),
         doctor_place: val('doctor_place'), doctor_city: val('doctor_city'), since_year: val('since_year'),
-        story: val('story'), consent: $('consent').checked, website: hp
+        story: val('story'), consent: $('consent').checked, not_staff: $('not_staff').checked,
+        doctor_phone: val('doctor_phone'), website: hp
       } };
     } else {
       var exp = Array.prototype.map.call(form.querySelectorAll('#expertise input:checked'), function (c) { return c.value; });

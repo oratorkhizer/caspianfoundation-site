@@ -37,7 +37,7 @@ const KINDS: Record<string, { prefix: string; exts: string[] }> = {
   "juror-cv": { prefix: "juror-cv", exts: ["pdf"] },
 };
 const ENTRY_COLS = ["category","young","qual_year","name","qualification","speciality","reg_no","council","institution","city","state","phone","email","title","problem","method","results","learning","team","pdf_path","photo_path","declarations","utm"];
-const NOM_COLS = ["nominator_name","nominator_phone","nominator_email","relation","city","doctor_name","doctor_place","doctor_city","since_year","story","consent","utm"];
+const NOM_COLS = ["nominator_name","nominator_phone","nominator_email","relation","city","doctor_name","doctor_place","doctor_city","doctor_phone","since_year","story","consent","not_staff","verify_token_hash","utm"];
 const JUROR_COLS = ["name","qualification","speciality","reg_no","council","designation","institution","city","state","pg_year","phone","email","expertise","roles","conflicts","linkedin","cv_path","declarations","utm"];
 const pick = (o: Record<string, unknown>, cols: string[]) => {
   const r: Record<string, unknown> = {};
@@ -368,6 +368,18 @@ Deno.serve(async (req) => {
       const { data, error } = await sb.from("award_nominations").insert(pick(body.nomination || {}, NOM_COLS)).select("id, ref").single();
       if (error) return json({ error: error.message }, 400);
       return json(data);
+    }
+    case "verify_nomination": {
+      // Email confirmation link: the site sends the SHA-256 of the token; the plain token is never stored.
+      const h = String(body.hash || "");
+      if (!/^[0-9a-f]{64}$/.test(h)) return json({ error: "Bad link." }, 400);
+      const { data: row } = await sb.from("award_nominations").select("id, ref, flags, email_verified_at").eq("verify_token_hash", h).maybeSingle();
+      if (!row) return json({ error: "This link has already been used or is not valid." }, 404);
+      const flags = (row.flags || []).filter((f: string) => f !== "email_not_verified");
+      const { error } = await sb.from("award_nominations")
+        .update({ email_verified_at: new Date().toISOString(), verify_token_hash: null, flags }).eq("id", row.id);
+      if (error) return json({ error: error.message }, 400);
+      return json({ ref: row.ref });
     }
     case "create_juror": {
       const row = pick(body.juror || {}, JUROR_COLS);
