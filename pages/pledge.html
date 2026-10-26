@@ -1,0 +1,268 @@
+<!--meta
+{
+ "title": "Make your Diabetes Promise | Caspian Healthcare Foundation",
+ "ogtitle": "Make your Diabetes Promise",
+ "description": "One promise for the feet, eyes, kidneys and heart of someone you love. Take a 30 second risk check, make your promise, and share your card on WhatsApp. World Diabetes Day, 14 November.",
+ "ogimage": "/og-pledge.jpg",
+ "nav": "",
+ "head": "<link rel=\"stylesheet\" href=\"/assets/pledge.css\">",
+ "foot": "<script src=\"/assets/pledge.js\" defer></script><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"Make your Diabetes Promise\",\"url\":\"https://caspianfoundation.in/pledge\",\"description\":\"A public awareness campaign by Caspian Healthcare Foundation to prevent diabetes complications. Make one promise and share your card.\",\"publisher\":{\"@id\":\"https://caspianfoundation.in/#org\"},\"inLanguage\":\"en-IN\"}</script>"
+}
+-->
+<section class="hero pl-hero">
+  <div class="wrap">
+    <div class="hero-split">
+      <div>
+        <span class="eyebrow">World Diabetes Day &middot; 14 November</span>
+        <h1>One promise can save a foot, an eye, a kidney.</h1>
+        <p class="lede">Most damage from diabetes is silent until it is late. A few simple habits catch it early. Choose one, make it a promise, and share your card so the people you love make theirs.</p>
+        <div id="refbanner" class="pl-ref" hidden>
+          <p class="pl-ref-k">A promise was shared with you</p>
+          <p class="pl-ref-t" id="reftext"></p>
+        </div>
+        <div class="hero-cta">
+          <a class="btn btn-gold" href="#promise">Make my promise</a>
+          <a class="btn btn-ghost-light" href="#why">Why these promises</a>
+        </div>
+        <p class="pl-count" id="plcount" hidden></p>
+      </div>
+      <figure class="photo" style="aspect-ratio:3/2">
+        <img src="/img/expo-screening.webp" alt="Volunteers and doctors screening visitors for diabetes at the Caspian Diabesity Expo" width="1000" height="667" fetchpriority="high">
+        <figcaption>Screening at the Caspian Diabesity Expo 2025, Hyderabad</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="mine" class="pl-mine" hidden>
+  <div class="wrap">
+    <div class="pl-mine-in">
+      <div>
+        <p class="kicker">Your promise</p>
+        <h2 id="minetitle">Your card is ready again.</h2>
+        <p id="mineinsp" class="pl-insp"></p>
+        <div class="pl-actions">
+          <button class="btn btn-navy" type="button" id="mineshare">Share my card</button>
+          <button class="btn btn-ghost" type="button" id="minewa">Send my link on WhatsApp</button>
+        </div>
+      </div>
+      <img id="mineimg" class="pl-card-img" alt="Your Diabetes Promise card" width="1080" height="1350">
+    </div>
+  </div>
+</section>
+
+<section id="promise" class="pl-sec">
+  <div class="wrap">
+    <div class="pl-head">
+      <p class="kicker">Takes about a minute</p>
+      <h2>Make your Diabetes Promise</h2>
+      <ol class="pl-steps" aria-label="Steps">
+        <li data-s="1" class="on">Who for</li>
+        <li data-s="2">Your choice</li>
+        <li data-s="3">Your card</li>
+      </ol>
+    </div>
+
+    <form id="plform" class="pl-box" novalidate>
+      <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <!-- Step 1: who -->
+      <fieldset class="pl-step" data-step="1">
+        <legend>Who is this promise for?</legend>
+        <div class="pl-who">
+          <label><input type="radio" name="path" value="loved_one"><b>Someone I love who has diabetes</b><span>A parent, grandparent, spouse or friend</span></label>
+          <label><input type="radio" name="path" value="self_dm"><b>Me. I have diabetes</b><span>Protect your feet, eyes, kidneys and heart</span></label>
+          <label><input type="radio" name="path" value="self_prevent"><b>Me. I do not have diabetes, or I am not sure</b><span>Includes a 30 second risk check</span></label>
+        </div>
+
+        <div class="pl-sub" id="lovedbox" hidden>
+          <div class="field">
+            <label for="dedicated">Who is it for? <span class="hint">This goes on the card</span></label>
+            <input id="dedicated" name="dedicated" maxlength="30" autocomplete="off" placeholder="Ammi, Abba, Nani, or a name">
+            <div class="pl-chips" id="chips">
+              <button type="button">Ammi</button><button type="button">Abba</button><button type="button">Amma</button><button type="button">Nanna</button><button type="button">Nani</button><button type="button">Dadi</button><button type="button">Nana</button><button type="button">Dada</button><button type="button">my husband</button><button type="button">my wife</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pl-sub" id="riskbox" hidden>
+          <p class="pl-sub-h">Indian Diabetes Risk Score <span>(four questions, developed by the Madras Diabetes Research Foundation)</span></p>
+          <div class="field">
+            <label>Your age</label>
+            <div class="pl-seg" data-q="age">
+              <button type="button" data-v="0">Under 35</button><button type="button" data-v="20">35 to 49</button><button type="button" data-v="30">50 or more</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>You are</label>
+            <div class="pl-seg" data-q="sex">
+              <button type="button" data-v="f">A woman</button><button type="button" data-v="m">A man</button>
+            </div>
+          </div>
+          <div class="field" id="waistq" hidden>
+            <label>Your waist, measured at the navel <span class="hint">trouser size is usually smaller than this</span></label>
+            <div class="pl-seg pl-seg-col" data-q="waist" id="waistopts"></div>
+          </div>
+          <div class="field">
+            <label>Your physical activity</label>
+            <div class="pl-seg pl-seg-col" data-q="act">
+              <button type="button" data-v="0">Hard work or vigorous exercise most days</button>
+              <button type="button" data-v="10">Moderate exercise or an active job</button>
+              <button type="button" data-v="20">Light activity only</button>
+              <button type="button" data-v="30">Mostly sitting, no exercise</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Do your parents have diabetes?</label>
+            <div class="pl-seg" data-q="fam">
+              <button type="button" data-v="0">Neither</button><button type="button" data-v="10">One parent</button><button type="button" data-v="20">Both</button>
+            </div>
+          </div>
+          <div id="riskresult" class="pl-risk" hidden aria-live="polite"></div>
+          <p class="note">This is a screening score, not a diagnosis. Your answers stay on your phone; only the result band is saved with your promise.</p>
+        </div>
+
+        <div class="msg err" hidden role="alert"></div>
+        <div class="pl-nav">
+          <span></span>
+          <button type="button" class="btn btn-navy" id="next1">Next</button>
+        </div>
+      </fieldset>
+
+      <!-- Step 2: promise -->
+      <fieldset class="pl-step" data-step="2" hidden>
+        <legend>Choose one promise</legend>
+        <p class="pl-lead">One promise you will really keep is worth more than five you forget. Pick the one that matters most right now.</p>
+        <div class="pl-promises" id="promises"></div>
+        <div class="msg err" hidden role="alert" style="margin-top:14px"></div>
+        <div class="pl-nav">
+          <button type="button" class="btn btn-ghost" data-back="1">Back</button>
+          <button type="button" class="btn btn-navy" id="next2">Next</button>
+        </div>
+      </fieldset>
+
+      <!-- Step 3: name -->
+      <fieldset class="pl-step" data-step="3" hidden>
+        <legend>Sign your promise</legend>
+        <div class="pl-preview" id="preview" aria-live="polite"></div>
+        <div class="field">
+          <label for="pname">Your name <span class="hint">as you want it on the card</span></label>
+          <input id="pname" name="pname" maxlength="32" autocomplete="name" required>
+        </div>
+        <div class="field" id="dedself">
+          <label for="dedself_in">Dedicate it <span class="hint">optional, for example "for my children"</span></label>
+          <input id="dedself_in" maxlength="30" autocomplete="off" placeholder="for my children">
+        </div>
+        <div class="pl-wa">
+          <div class="field">
+            <label for="phone">WhatsApp number <span class="hint">optional, for two reminders</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="98765 43210">
+          </div>
+          <label class="check"><input type="checkbox" id="consent"> <span>Send me a reminder on WhatsApp after 7 days and after 30 days to help me keep this promise. I can reply STOP at any time.</span></label>
+        </div>
+        <div id="formmsg" class="msg err" hidden role="alert"></div>
+        <div class="pl-nav">
+          <button type="button" class="btn btn-ghost" data-back="2">Back</button>
+          <button type="submit" class="btn btn-gold" id="submit">Make my promise</button>
+        </div>
+        <p class="note">By making a promise you agree to our <a href="/privacy">privacy policy</a>. We never share your details with sponsors or companies.</p>
+      </fieldset>
+    </form>
+
+    <!-- Result -->
+    <div id="done" class="pl-done" hidden>
+      <div class="pl-done-in">
+        <div class="pl-done-card">
+          <img id="cardimg" class="pl-card-img" alt="Your Diabetes Promise card" width="1080" height="1350">
+          <div class="pl-fmt" role="group" aria-label="Card size">
+            <button type="button" data-fmt="post" aria-pressed="true">Post 4:5</button>
+            <button type="button" data-fmt="story" aria-pressed="false">Status 9:16</button>
+          </div>
+        </div>
+        <div>
+          <p class="kicker">Promise made</p>
+          <h2 id="donetitle">Thank you. Now pass it on.</h2>
+          <p>A promise kept quietly protects one person. A promise shared reaches a family. Put your card on your WhatsApp status and send your link to two people who need it.</p>
+          <div class="pl-actions">
+            <button class="btn btn-gold" type="button" id="share">Share my card</button>
+            <button class="btn btn-navy" type="button" id="wa">Send my link on WhatsApp</button>
+            <button class="btn btn-ghost" type="button" id="dl">Download card</button>
+            <button class="btn btn-ghost" type="button" id="copy">Copy my link</button>
+          </div>
+          <p class="note" id="copymsg" hidden>Link copied.</p>
+          <div class="pl-tip" id="tip"></div>
+          <p class="pl-again"><a href="/pledge#promise" id="again">Make a promise for someone else</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why" class="sec-alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">Why these promises</p>
+      <h2>Diabetes rarely hurts until the damage is done.</h2>
+      <p>India has more than 10 crore adults living with diabetes, and many more with prediabetes. The complications grow quietly for years. Each promise below is a simple check that finds them early, when they can still be treated.</p>
+    </div>
+    <div class="grid g4 pl-why">
+      <div class="card"><span class="tag">Feet</span><h3>Look every day</h3><p>Nerve damage can hide a small cut. A daily look, and a doctor's foot check every year, catches it before it becomes an ulcer.</p></div>
+      <div class="card"><span class="tag">Eyes</span><h3>A retina check every year</h3><p>Early diabetic eye damage gives no warning. A check with dilating drops finds it while sight can still be protected.</p></div>
+      <div class="card"><span class="tag">Kidneys</span><h3>Two tests every year</h3><p>A urine albumin test and a blood creatinine test pick up kidney damage years before any symptom.</p></div>
+      <div class="card"><span class="tag">Heart</span><h3>Know your numbers</h3><p>Heart disease is the leading cause of death in people with diabetes. Blood pressure and cholesterol matter as much as sugar.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="grid g2 pl-spread">
+      <div class="card">
+        <span class="tag">Schools, offices, colonies, clubs</span>
+        <h3>Run the promise with your group</h3>
+        <p>Make a link for your group. Everyone who makes a promise through it is counted for your group, and you can tell us when you want the number.</p>
+        <div class="field">
+          <label for="gname">Group name</label>
+          <input id="gname" maxlength="40" placeholder="for example, Green Park Colony" autocomplete="off">
+        </div>
+        <div class="pl-glink" id="glinkbox" hidden>
+          <code id="glink"></code>
+          <div class="pl-actions">
+            <button class="btn btn-navy btn-sm" type="button" id="gcopy">Copy link</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="gwa">Share on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <span class="tag">Doctors and health workers</span>
+        <h3>Give it to your patients</h3>
+        <p>Share the link in your clinic WhatsApp group or on your waiting room screen. Patients choose a promise that matches what you already advise them, in their own words, and their family sees it.</p>
+        <div class="pl-actions">
+          <button class="btn btn-ghost btn-sm" type="button" id="doccopy">Copy the clinic link</button>
+        </div>
+        <p class="note" id="docmsg" hidden>Link copied.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-alt">
+  <div class="wrap" style="max-width:820px">
+    <div class="sec-head">
+      <p class="kicker">Questions</p>
+      <h2>About the Diabetes Promise</h2>
+    </div>
+    <dl class="qa">
+      <dt>Who runs this?</dt>
+      <dd>Caspian Healthcare Foundation, an NGO in Hyderabad working on diabetes, obesity and preventive health. The promise is free and is part of our World Diabetes Day work.</dd>
+      <dt>Is the risk check a diagnosis?</dt>
+      <dd>No. The Indian Diabetes Risk Score tells you how likely you are to have or develop type 2 diabetes. Only a blood test, such as fasting blood sugar or HbA1c, can tell you whether you have it.</dd>
+      <dt>What happens to my details?</dt>
+      <dd>Your name and promise make your card. Your risk check answers stay on your phone. Your WhatsApp number is used only for the two reminders you agreed to, and only if you gave it. Read the <a href="/privacy">privacy policy</a>.</dd>
+      <dt>Can I make a promise for more than one person?</dt>
+      <dd>Yes. Make one for yourself and one for each person you care about. Each gets its own card and link.</dd>
+      <dt>I have made my promise. What next?</dt>
+      <dd>Keep it, and talk to your doctor about the check you promised. If you need a test in Hyderabad, Caspian Diagnostic Centre in Vijaynagar Colony does the blood and urine tests: <a href="https://caspianlabs.in/" rel="noopener">caspianlabs.in</a>.</dd>
+    </dl>
+  </div>
+</section>

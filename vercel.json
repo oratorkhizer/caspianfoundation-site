@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/award-(desk|score)",
+      "source": "/(award-desk|award-score|pledge-desk)",
       "headers": [{ "key": "Cache-Control", "value": "no-store" }, { "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
     {
@@ -46,6 +46,8 @@
     { "source": "/award/jury", "destination": "/award-jury", "permanent": false },
     { "source": "/changemakers", "destination": "/award", "permanent": false },
     { "source": "/awards", "destination": "/award", "permanent": false },
-    { "source": "/nominate", "destination": "/award-nominate", "permanent": false }
+    { "source": "/nominate", "destination": "/award-nominate", "permanent": false },
+    { "source": "/promise", "destination": "/pledge", "permanent": false },
+    { "source": "/diabetes-promise", "destination": "/pledge", "permanent": false }
   ]
 }

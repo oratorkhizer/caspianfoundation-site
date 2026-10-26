@@ -247,3 +247,4 @@ dl.qa dd{margin:6px 0 0;color:var(--ink)}
 .awardnav a.minor{font-weight:500;color:var(--muted);font-size:.84rem}
 .awardnav .sp{flex:1 1 auto;min-width:12px}
 @media(max-width:940px){.awardnav{top:64px}}
+.split>*,.hero-split>*{min-width:0}

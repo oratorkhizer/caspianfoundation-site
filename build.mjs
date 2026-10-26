@@ -134,6 +134,7 @@ for (const f of files) {
     .replaceAll('{{title}}', meta.title)
     .replaceAll('{{ogtitle}}', meta.ogtitle || meta.title)
     .replaceAll('{{description}}', meta.description)
+    .replaceAll('{{ogimage}}', meta.ogimage || '/og-image.jpg')
     .replaceAll('{{canonical}}', canonical)
     .replace('{{head}}', meta.head || '')
     .replace('{{foot}}', meta.foot || '')
@@ -147,7 +148,7 @@ for (const f of files) {
   writeFileSync(join(out, f), version(html));
 }
 
-for (const asset of ['assets', 'favicon.svg', 'site.webmanifest', 'robots.txt', 'sitemap.xml', 'llms.txt']) {
+for (const asset of ['assets', 'og-pledge.jpg', 'favicon.svg', 'site.webmanifest', 'robots.txt', 'sitemap.xml', 'llms.txt']) {
   cpSync(join(root, asset), join(out, asset), { recursive: true });
 }
 
