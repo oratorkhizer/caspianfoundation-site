@@ -103,6 +103,22 @@ async function buildBrandImages() {
 /* --------------------------------------------------------------------------- */
 
 const layout = readFileSync(join(root, 'layout.html'), 'utf8');
+
+/* Microsoft Clarity (heatmaps and anonymised session replays), project z7ziwm45hi.
+   It loads on the public pages only. It is left out of the passcode desks, the
+   juror scoring page, the donation and paid entry flows with their thank you
+   pages, certificate verification, and the Diabetes Promise page, whose risk
+   check answers are promised to stay on the visitor's phone. Every form is also
+   marked data-clarity-mask so its entries are never recorded. */
+const CLARITY_EXCLUDE = new Set([
+  'award-desk', 'award-score', 'pledge-desk',
+  'donate', 'thanks', 'award-apply', 'award-thanks',
+  'verify', 'pledge'
+]);
+const CLARITY =
+  '<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};' +
+  't=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;' +
+  'y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z7ziwm45hi");</script>';
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
@@ -138,7 +154,8 @@ for (const f of files) {
     .replaceAll('{{canonical}}', canonical)
     .replace('{{head}}', meta.head || '')
     .replace('{{foot}}', meta.foot || '')
-    .replace('{{body}}', body);
+    .replace('{{clarity}}', CLARITY_EXCLUDE.has(slug) ? '' : CLARITY)
+    .replace('{{body}}', body.replace(/<form(?![^>]*data-clarity-mask)/g, '<form data-clarity-mask="True"'));
   for (const k of navKeys) {
     html = html.replace('{{nav-' + k + '}}', meta.nav === k ? ' aria-current="page"' : '');
   }
