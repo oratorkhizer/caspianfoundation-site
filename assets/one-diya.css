@@ -54,7 +54,7 @@
 .od-live .od-dark{display:block;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,#020403 0,#030605 18%,#0b1814 52%,var(--od-night) 80%)}
 .od-live .od-cream{
   display:block;position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at var(--fx,50%) var(--fy,35%),var(--od-cream) 0,var(--od-cream) var(--r,0px),rgba(251,244,230,0) calc(var(--r,0px) + 160px));
+  background:radial-gradient(circle at var(--fx,50%) var(--fy,35%),var(--od-cream) 0,var(--od-cream) var(--r,0px),rgba(251,244,230,0) calc(var(--r,0px) + 100px));
 }
 .od-live .od-big{position:relative;z-index:2;margin:0;width:min(40vh,360px,78vw);flex:0 0 auto;transform:scale(var(--bs,1));opacity:var(--bo,1)}
 @media(max-width:760px){.od-live .od-big{width:min(34vh,300px,72vw)}}
@@ -70,7 +70,8 @@
 
 .od-live .od-items{display:grid;grid-template-columns:1fr}
 .od-live .od-items li{grid-area:1/1;display:block;background:transparent;border:0;padding:0;text-align:center;
-  opacity:var(--o,0);transform:translateY(calc((1 - var(--o,0)) * 14px));align-self:start}
+  opacity:0;transform:translateY(14px);visibility:hidden;align-self:start;transition:opacity .28s ease,transform .28s ease,visibility 0s linear .28s}
+.od-live .od-items li.on{opacity:1;transform:none;visibility:visible;transition-delay:0s}
 .od-live .od-items .od-lamp{display:none}
 .od-live .od-n{color:var(--od-flame)}
 .od-live .od-items h3{color:#fff;font-size:clamp(1.5rem,3.4vw,2.3rem);font-weight:600;margin:.15em 0 .3em}
@@ -94,8 +95,8 @@
 .od-live .od-text{position:relative;z-index:3;display:grid;width:min(640px,calc(100% - 32px));min-height:clamp(150px,24vh,220px)}
 .od-live .od-text>*{grid-area:1/1}
 .od-live .od-items{width:100%}
-.od-live .od-end{margin:0;opacity:var(--eo,0);transform:translateY(calc((1 - var(--eo,0)) * 14px));pointer-events:none;visibility:hidden;align-self:start}
-.od-live .od-end.on{pointer-events:auto;visibility:visible}
+.od-live .od-end{margin:0;opacity:0;transform:translateY(14px);pointer-events:none;visibility:hidden;align-self:start;transition:opacity .28s ease,transform .28s ease,visibility 0s linear .28s,color .2s}
+.od-live .od-end.on{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition-delay:0s}
 .od-live .od-end h2{font-size:clamp(1.7rem,4.4vw,2.8rem);font-weight:700;color:var(--navy)}
 .od-live .od-end p{color:var(--ink);font-size:clamp(1rem,1.8vw,1.12rem)}
 .od-live .od-end .btn{position:relative;z-index:5}
@@ -113,8 +114,8 @@
 
 /* hero layer on the dark stage */
 .od-live .od-hero{position:relative;z-index:5;margin:0;max-width:none;align-self:start;
-  opacity:var(--ho,1);transform:translateY(calc((1 - var(--ho,1)) * -16px))}
-.od-live .od-hero.off{visibility:hidden;pointer-events:none}
+  opacity:1;transform:none;transition:opacity .28s ease,transform .28s ease}
+.od-live .od-hero.off{opacity:0;transform:translateY(-16px);visibility:hidden;pointer-events:none;transition:opacity .28s ease,transform .28s ease,visibility 0s linear .28s}
 .od-live .od-hero h1{color:#fff;font-weight:800;letter-spacing:-.01em}
 .od-live .od-hero p{color:#d8cdb6}
 .od-live .od-hero .btn-ghost-light{color:#fff;border-color:rgba(255,255,255,.4)}
@@ -138,3 +139,6 @@
 .od-live.od-seen .od-hero .btn-ghost-light{color:var(--navy);border-color:var(--line-2)}
 .od-seen .od-replay{display:block;position:absolute;z-index:6;top:14px;right:16px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;
   color:var(--navy);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px;background:rgba(255,255,255,.6)}
+
+/* the caption only while a photo is on screen */
+.od-live.od-nophoto .od-cap,.od-seen .od-cap{display:none}
