@@ -11,7 +11,14 @@
   padding:clamp(40px,6vw,70px) 0;
 }
 .od-stage{position:relative;max-width:var(--maxw);margin:0 auto;padding:0 20px}
-.od-skip,.od-hint,.od-lamps,.od-dark,.od-cream,.od-tag{display:none}
+.od-skip,.od-replay,.od-hint,.od-lamps,.od-dark,.od-cream,.od-tag{display:none}
+
+/* the hero frame: the page's one h1 and its two actions */
+.od-hero{text-align:center;margin:0 auto 26px;max-width:640px}
+.od-hero h1{margin:.25em auto .3em;max-width:20ch;text-wrap:balance;font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.12}
+.od-hero p{margin:0 auto 18px;color:var(--ink);font-size:clamp(1rem,1.8vw,1.15rem)}
+.od-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.od-hero .btn-ghost-light{color:var(--navy);border-color:var(--line-2)}
 
 /* flat layout (default) */
 .od-big{margin:0 auto 10px;width:min(220px,60vw);text-align:center}
@@ -36,8 +43,8 @@
 .od-cap{display:none}
 
 /* live, pinned version */
-.od.od-live{height:640vh;padding:0;background:var(--od-night)}
-@media(max-width:760px){.od.od-live{height:700vh}}
+.od.od-live{height:380vh;padding:0;background:var(--od-night)}
+@media(max-width:760px){.od.od-live{height:400vh}}
 .od-live .od-stage{
   position:sticky;top:var(--hdr);max-width:none;margin:0;padding:0;
   height:calc(100vh - var(--hdr));height:calc(100dvh - var(--hdr));overflow:hidden;
@@ -49,7 +56,7 @@
   display:block;position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(circle at var(--fx,50%) var(--fy,35%),var(--od-cream) 0,var(--od-cream) var(--r,0px),rgba(251,244,230,0) calc(var(--r,0px) + 160px));
 }
-.od-live .od-big{position:relative;z-index:2;margin:0;width:min(46vh,400px,78vw);flex:0 0 auto;transform:scale(var(--bs,1));opacity:var(--bo,1)}
+.od-live .od-big{position:relative;z-index:2;margin:0;width:min(40vh,360px,78vw);flex:0 0 auto;transform:scale(var(--bs,1));opacity:var(--bo,1)}
 @media(max-width:760px){.od-live .od-big{width:min(34vh,300px,72vw)}}
 @media(max-height:700px){.od-live .od-big{width:min(30vh,260px,66vw)}.od-live .od-text{min-height:150px}}
 @media(max-width:560px){.od-live .od-end .btn{padding:10px 18px;font-size:.95rem}}
@@ -103,3 +110,31 @@
 .od-live .od-cap{display:block;position:absolute;z-index:3;left:16px;top:20px;font-size:.68rem;color:rgba(243,230,204,.5)}
 .od-live.od-day .od-cap{color:var(--muted)}
 #od-after{scroll-margin-top:var(--hdr,70px)}
+
+/* hero layer on the dark stage */
+.od-live .od-hero{position:relative;z-index:5;margin:0;max-width:none;align-self:start;
+  opacity:var(--ho,1);transform:translateY(calc((1 - var(--ho,1)) * -16px))}
+.od-live .od-hero.off{visibility:hidden;pointer-events:none}
+.od-live .od-hero h1{color:#fff;font-weight:800;letter-spacing:-.01em}
+.od-live .od-hero p{color:#d8cdb6}
+.od-live .od-hero .btn-ghost-light{color:#fff;border-color:rgba(255,255,255,.4)}
+.od-live .od-hero .btn{position:relative;z-index:6}
+@media(max-width:560px){.od-live .od-hero .btn{padding:10px 18px;font-size:.95rem}}
+
+/* focus rings */
+.od-skip:focus-visible,.od-replay:focus-visible{outline:3px solid var(--od-flame);outline-offset:3px}
+.od-live.od-day .od-skip:focus-visible,.od-seen .od-replay:focus-visible{outline-color:var(--navy)}
+
+/* return visit: the end state as one ordinary screen, no pinned travel */
+.od.od-live.od-seen{height:auto;background:var(--od-cream)}
+.od-seen .od-stage{position:relative;top:0;min-height:520px}
+.od-seen .od-dark,.od-seen .od-cream,.od-seen .od-big,.od-seen .od-items,.od-seen .od-end,.od-seen .od-skip,.od-seen .od-hint{display:none}
+.od-seen .od-text{min-height:0}
+.od-live.od-seen .od-hero{opacity:1;transform:none}
+.od-live.od-seen .od-hero h1{color:var(--navy)}
+.od-live.od-seen .od-hero p{color:var(--ink)}
+.od-live.od-seen .od-hero .od-n{color:var(--navy-3)}
+.od-seen .od-lamps{margin-top:clamp(8px,3vh,28px)}
+.od-live.od-seen .od-hero .btn-ghost-light{color:var(--navy);border-color:var(--line-2)}
+.od-seen .od-replay{display:block;position:absolute;z-index:6;top:14px;right:16px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;
+  color:var(--navy);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px;background:rgba(255,255,255,.6)}

@@ -64,7 +64,8 @@ nav.main a.btn-gold,nav.main a.btn-gold:hover{color:#3a2606;background:linear-gr
 /* hero */
 .hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 55%,var(--navy-3) 100%);color:#fff;padding:clamp(48px,8vw,92px) 0;position:relative;overflow:hidden}
 .hero:after{content:"";position:absolute;right:-140px;top:-140px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(242,204,143,.22),transparent 62%)}
-.hero h1{color:#fff;max-width:17ch}
+.hero h1,.hero .hero-h{color:#fff;max-width:17ch}
+.hero .hero-h{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;letter-spacing:-.01em}
 .hero .lede{font-size:clamp(1.02rem,1.9vw,1.2rem);color:#cfdcec;max-width:58ch}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold-lt);border:1px solid rgba(246,217,168,.4);border-radius:999px;padding:6px 14px;margin-bottom:20px;background:rgba(246,217,168,.07)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
