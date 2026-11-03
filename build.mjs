@@ -148,7 +148,7 @@ for (const f of files) {
   writeFileSync(join(out, f), version(html));
 }
 
-for (const asset of ['assets', 'og-pledge.jpg', 'favicon.svg', 'site.webmanifest', 'robots.txt', 'sitemap.xml', 'llms.txt']) {
+for (const asset of ['assets', 'og-pledge.jpg', 'og-verify.jpg', 'favicon.svg', 'site.webmanifest', 'robots.txt', 'sitemap.xml', 'llms.txt']) {
   cpSync(join(root, asset), join(out, asset), { recursive: true });
 }
 
