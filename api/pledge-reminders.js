@@ -1,8 +1,8 @@
 // Daily Diabetes Promise reminder emails (12 Nov 2026). Vercel cron calls this once a day (vercel.json).
-// It asks pledge-api for reminders that are due (7 and 30 days after the promise), sends each one
+// It asks pledge-api for reminders that are due (schedule per promise, see pledge-api SCHEDULE), sends each one
 // through Resend from mail.caspianfoundation.in, and marks it sent. Server-to-server calls use the
 // same AWARD_TOKEN as the award functions. Every email has a one-click stop link.
-// LIVE stays false until Dr Khizer approves the wording; while false it only reports what it would send.
+// LIVE: base wording approved 12 Nov 2026; the done/done_once/yearly/due3m wording awaits his yes. Set true to send.
 const LIVE = false;
 
 const API = 'https://itqxfypvrvwplzeeldaz.supabase.co/functions/v1/pledge-api';
@@ -53,22 +53,34 @@ const TIPS = {
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// Email wording by kind (approved 12 Nov 2026). Yearly checks: book, done, yearly. HbA1c: book, then due3m.
+// One-off tests: book, done_once. Daily habits: habit7, habit30.
+const COPY = {
+  habit7: ['One week on: your Diabetes Promise', 'A week ago you made your Diabetes Promise. This is a quick reminder to help you keep it.', 'If you have kept it already, well done. Send your card to one more person who needs it.'],
+  habit30: ['One month on: your Diabetes Promise', 'It is a month since you made your Diabetes Promise. This is the last reminder we will send.', 'If you have kept it already, well done. Send your card to one more person who needs it.'],
+  book: ['One week on: your Diabetes Promise', 'A week ago you made your Diabetes Promise. If the check is not booked yet, this is a good week to book it.', 'If it is done already, well done. Send your card to one more person who needs it.'],
+  done: ['Have you had your check? Your Diabetes Promise', 'It is a month since you made your Diabetes Promise. Have you had the check? If not, please book it this week.', 'If it is done, well done. We will write once more when next year\'s check is due.'],
+  done_once: ['Have you had your test? Your Diabetes Promise', 'It is a month since you made your Diabetes Promise. Have you had the test? If not, please book it this week.', 'If it is done, well done. Please share the result with your doctor. This is the last reminder we will send.'],
+  yearly: ['Your yearly check is due: your Diabetes Promise', 'Almost a year ago you made your Diabetes Promise. It is time for this year\'s check. Please book it in the next few weeks.', 'This is the last reminder for this promise. You can make a new promise any time at caspianfoundation.in/pledge.'],
+  due3m: ['Your next HbA1c test is due: your Diabetes Promise', 'It is almost three months since your last reminder. Your next HbA1c test is due in the next week or two.', 'Take the report to your doctor. It shows whether the treatment is working.']
+};
+
 function compose(r) {
   const first = String(r.name || '').split(' ')[0] || 'there';
   const line = ((LINES[r.path] || {})[r.promise] || 'keep your promise').replace(/\{n\}/g, r.dedicated_to || 'them');
   const tip = TIPS[r.promise] || '';
   const stop = SITE + '/pledge?stop=' + r.unsub_token;
   const card = SITE + '/pledge?r=' + r.code;
-  const subject = r.which === 30 ? 'One month on: your Diabetes Promise' : 'One week on: your Diabetes Promise';
-  const opener = r.which === 30
-    ? 'It is a month since you made your Diabetes Promise. This is the last reminder we will send.'
-    : 'A week ago you made your Diabetes Promise. This is a quick reminder to help you keep it.';
+  const c = COPY[r.kind] || COPY.habit7;
+  const subject = c[0];
+  let closer = c[2];
+  if (r.kind === 'due3m' && r.last) closer += ' This is the last reminder for this promise.';
   const ps = [
     'Dear ' + first + ',',
-    opener,
+    c[1],
     'Your promise: <b>I promise to ' + esc(line) + '.</b>',
     tip ? 'To keep it: ' + esc(tip) : '',
-    'If you have kept it already, well done. Send your card to one more person who needs it.'
+    closer
   ].filter(Boolean);
   const html = '<!doctype html><html><body style="margin:0;background:#fbf1e1;font-family:Arial,Helvetica,sans-serif">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fbf1e1;padding:24px 12px"><tr><td align="center">' +
@@ -102,7 +114,7 @@ export default async function handler(req, res) {
   const due = await api({ action: 'reminders_due' });
   if (!due.ok) return res.status(502).json({ error: 'could not read reminders', detail: due.data });
   const rows = due.data.rows || [];
-  if (!LIVE) return res.status(200).json({ live: false, would_send: rows.length, sample: rows.slice(0, 3).map((r) => ({ code: r.code, which: r.which })) });
+  if (!LIVE) return res.status(200).json({ live: false, would_send: rows.length, sample: rows.slice(0, 3).map((r) => ({ code: r.code, kind: r.kind })) });
 
   const key = process.env.RESEND_API_KEY;
   if (!key) return res.status(500).json({ error: 'RESEND_API_KEY not set' });
@@ -112,7 +124,7 @@ export default async function handler(req, res) {
     try {
       const s = await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key, 'Idempotency-Key': 'pledge-' + r.code + '-' + r.which },
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key, 'Idempotency-Key': 'pledge-' + r.code + '-' + r.stage },
         body: JSON.stringify({
           from: 'Caspian Healthcare Foundation <promise@mail.caspianfoundation.in>',
           reply_to: 'info@caspianfoundation.in',
@@ -124,7 +136,7 @@ export default async function handler(req, res) {
         })
       });
       if (!s.ok) { failed++; console.error('resend ' + s.status + ' ' + (await s.text()).slice(0, 200)); continue; }
-      await api({ action: 'reminder_sent', code: r.code, which: r.which });
+      await api({ action: 'reminder_sent', code: r.code, stage: r.stage });
       sent++;
     } catch (e) {
       failed++;
