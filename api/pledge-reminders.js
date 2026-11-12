@@ -2,8 +2,8 @@
 // It asks pledge-api for reminders that are due (schedule per promise, see pledge-api SCHEDULE), sends each one
 // through Resend from mail.caspianfoundation.in, and marks it sent. Server-to-server calls use the
 // same AWARD_TOKEN as the award functions. Every email has a one-click stop link.
-// LIVE: base wording approved 12 Nov 2026; the done/done_once/yearly/due3m wording awaits his yes. Set true to send.
-const LIVE = false;
+// LIVE: all wording approved by Dr Khizer on 12 Nov 2026. Set to false to pause all sending.
+const LIVE = true;
 
 const API = 'https://itqxfypvrvwplzeeldaz.supabase.co/functions/v1/pledge-api';
 const SITE = 'https://caspianfoundation.in';
@@ -56,13 +56,13 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': 
 // Email wording by kind (approved 12 Nov 2026). Yearly checks: book, done, yearly. HbA1c: book, then due3m.
 // One-off tests: book, done_once. Daily habits: habit7, habit30.
 const COPY = {
-  habit7: ['One week on: your Diabetes Promise', 'A week ago you made your Diabetes Promise. This is a quick reminder to help you keep it.', 'If you have kept it already, well done. Send your card to one more person who needs it.'],
-  habit30: ['One month on: your Diabetes Promise', 'It is a month since you made your Diabetes Promise. This is the last reminder we will send.', 'If you have kept it already, well done. Send your card to one more person who needs it.'],
-  book: ['One week on: your Diabetes Promise', 'A week ago you made your Diabetes Promise. If the check is not booked yet, this is a good week to book it.', 'If it is done already, well done. Send your card to one more person who needs it.'],
-  done: ['Have you had your check? Your Diabetes Promise', 'It is a month since you made your Diabetes Promise. Have you had the check? If not, please book it this week.', 'If it is done, well done. We will write once more when next year\'s check is due.'],
-  done_once: ['Have you had your test? Your Diabetes Promise', 'It is a month since you made your Diabetes Promise. Have you had the test? If not, please book it this week.', 'If it is done, well done. Please share the result with your doctor. This is the last reminder we will send.'],
-  yearly: ['Your yearly check is due: your Diabetes Promise', 'Almost a year ago you made your Diabetes Promise. It is time for this year\'s check. Please book it in the next few weeks.', 'This is the last reminder for this promise. You can make a new promise any time at caspianfoundation.in/pledge.'],
-  due3m: ['Your next HbA1c test is due: your Diabetes Promise', 'It is almost three months since your last reminder. Your next HbA1c test is due in the next week or two.', 'Take the report to your doctor. It shows whether the treatment is working.']
+  habit7: ['Your Diabetes Promise: one week', 'You made your Diabetes Promise one week ago. This is a small reminder.', 'Keep going. Please send your card to one more person.'],
+  habit30: ['Your Diabetes Promise: one month', 'You made your Diabetes Promise one month ago. This is our last reminder.', 'Keep going. Please send your card to one more person.'],
+  book: ['Your Diabetes Promise: book your check', 'You made your Diabetes Promise one week ago. Please book your check this week.', 'Already done? Very good. Please send your card to one more person.'],
+  done: ['Your Diabetes Promise: is your check done?', 'You made your Diabetes Promise one month ago. Is your check done? If not, please book it this week.', 'Already done? Very good. We will remind you when next year\'s check is due.'],
+  done_once: ['Your Diabetes Promise: is your test done?', 'You made your Diabetes Promise one month ago. Is your test done? If not, please book it this week.', 'Already done? Very good. Show the report to your doctor. This is our last reminder.'],
+  yearly: ['Your Diabetes Promise: your yearly check is due', 'You made your Diabetes Promise almost one year ago. Your yearly check is due now. Please book it.', 'This is our last reminder. You can make a new promise at caspianfoundation.in/pledge.'],
+  due3m: ['Your Diabetes Promise: your HbA1c test is due', 'Your next HbA1c test is due in one or two weeks. Please book it.', 'Show the report to your doctor.']
 };
 
 function compose(r) {
@@ -74,7 +74,7 @@ function compose(r) {
   const c = COPY[r.kind] || COPY.habit7;
   const subject = c[0];
   let closer = c[2];
-  if (r.kind === 'due3m' && r.last) closer += ' This is the last reminder for this promise.';
+  if (r.kind === 'due3m' && r.last) closer += ' This is our last reminder.';
   const ps = [
     'Dear ' + first + ',',
     c[1],
