@@ -56,15 +56,10 @@
       .then(function (r) { return r.json().then(function (j) { j._status = r.status; return j; }); });
   }
   function clean(s, max) {
-    return String(s || '').replace(/[<>]/g, '').replace(/\u2014/g, ', ').replace(/\s+/g, ' ').trim().slice(0, max);
+    return String(s || '').replace(/[<>]/g, '').replace(/—/g, ', ').replace(/\s+/g, ' ').trim().slice(0, max);
   }
-  function normalisePhone(raw) {
-    var d = String(raw || '').replace(/\D/g, '');
-    if (d.length === 12 && d.indexOf('91') === 0) d = d.slice(2);
-    else if (d.length === 11 && d.charAt(0) === '0') d = d.slice(1);
-    else if (d.length === 13 && d.indexOf('091') === 0) d = d.slice(3);
-    return /^[6-9]\d{9}$/.test(d) ? d : '';
-  }
+  // 12 Nov 2026: reminders are by email now (WhatsApp dropped).
+  var EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
   function store(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode */ } }
   function load(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
   function fmtDate(iso) {
@@ -84,6 +79,15 @@
     campaign: group ? 'group:' + group : clean(qs.get('utm_campaign'), 60)
   };
   var mine = load('chf_promises', []);
+
+  /* ---------------- Stop link from a reminder email ---------------- */
+  var stop = (qs.get('stop') || '').toLowerCase();
+  if (/^[0-9a-f]{32}$/.test(stop)) {
+    post({ action: 'unsubscribe', token: stop }).then(function () {
+      var m = $('stopmsg');
+      if (m) m.hidden = false;
+    }).catch(function () { /* ignore */ });
+  }
 
   /* ---------------- Live count (shown only once it is meaningful) ---------------- */
   post({ action: 'stats' }).then(function (j) {
@@ -253,8 +257,8 @@
   }
   $('pname').addEventListener('input', preview);
   $('dedself_in').addEventListener('input', preview);
-  $('phone').addEventListener('input', function () {
-    if ($('phone').value.trim() && !$('consent').checked) $('consent').checked = true;
+  $('email').addEventListener('input', function () {
+    if ($('email').value.trim() && !$('consent').checked) $('consent').checked = true;
   });
 
   function nudge(el, text) {
@@ -284,12 +288,10 @@
     $('formmsg').hidden = true;
     var name = clean($('pname').value, 32);
     if (name.length < 2) return nudge($('pname'), 'Write your name as you want it on the card.');
-    var rawPhone = $('phone').value.trim();
-    var phone = '';
-    if (rawPhone) {
-      phone = normalisePhone(rawPhone);
-      if (!phone) return nudge($('phone'), 'That does not look like a 10 digit mobile number. You can also leave it empty.');
-      if (!$('consent').checked) return nudge($('consent'), 'Tick the box to get the reminders, or leave the number empty.');
+    var email = $('email').value.trim().toLowerCase();
+    if (email) {
+      if (!EMAIL_RE.test(email)) return nudge($('email'), 'That does not look like an email address. You can also leave it empty.');
+      if (!$('consent').checked) return nudge($('consent'), 'Tick the box to get the reminders, or leave the email empty.');
     }
     var ded = dedication();
     var btn = $('submit');
@@ -297,7 +299,7 @@
     post({
       action: 'submit', path: state.path, promise: state.promise, name: name,
       dedicated_to: state.path === 'loved_one' ? state.who : ded.replace(/^for\s+/i, ''),
-      risk_band: state.band, phone: phone, consent: !!(phone && $('consent').checked),
+      risk_band: state.band, email: email, consent: !!(email && $('consent').checked),
       ref: ref, utm: utm, website: form.website.value, ms: Date.now() - started
     }).then(function (j) {
       btn.disabled = false; btn.textContent = 'Make my promise';
