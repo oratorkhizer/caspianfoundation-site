@@ -49,5 +49,8 @@
     { "source": "/nominate", "destination": "/award-nominate", "permanent": false },
     { "source": "/promise", "destination": "/pledge", "permanent": false },
     { "source": "/diabetes-promise", "destination": "/pledge", "permanent": false }
+  ],
+  "crons": [
+    { "path": "/api/pledge-reminders", "schedule": "30 4 * * *" }
   ]
 }
