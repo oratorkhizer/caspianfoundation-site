@@ -25,6 +25,7 @@
           <a class="btn btn-ghost-light" href="#why">Why these promises</a>
         </div>
         <p class="pl-count" id="plcount" hidden></p>
+        <p class="pl-count" id="stopmsg" hidden role="status">Done. We will not send you any more reminders.</p>
       </div>
       <figure class="photo" style="aspect-ratio:3/2">
         <img src="/img/expo-screening.webp" alt="Volunteers and doctors screening visitors for diabetes at the Caspian Diabesity Expo" width="1000" height="667" fetchpriority="high">
@@ -155,10 +156,10 @@
         </div>
         <div class="pl-wa">
           <div class="field">
-            <label for="phone">WhatsApp number <span class="hint">optional, for two reminders</span></label>
-            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="98765 43210">
+            <label for="email">Email <span class="hint">optional, for two reminders</span></label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
           </div>
-          <label class="check"><input type="checkbox" id="consent"> <span>Send me a reminder on WhatsApp after 7 days and after 30 days to help me keep this promise. I can reply STOP at any time.</span></label>
+          <label class="check"><input type="checkbox" id="consent"> <span>Email me a reminder after 7 days and after 30 days to help me keep this promise. Every email has a link to stop them.</span></label>
         </div>
         <div id="formmsg" class="msg err" hidden role="alert"></div>
         <div class="pl-nav">
@@ -258,7 +259,7 @@
       <dt>Is the risk check a diagnosis?</dt>
       <dd>No. The Indian Diabetes Risk Score tells you how likely you are to have or develop type 2 diabetes. Only a blood test, such as fasting blood sugar or HbA1c, can tell you whether you have it.</dd>
       <dt>What happens to my details?</dt>
-      <dd>Your name and promise make your card. Your risk check answers stay on your phone. Your WhatsApp number is used only for the two reminders you agreed to, and only if you gave it. Read the <a href="/privacy">privacy policy</a>.</dd>
+      <dd>Your name and promise make your card. Your risk check answers stay on your phone. Your email is used only for the two reminders you agreed to, and only if you gave it. Every reminder has a link to stop them. Read the <a href="/privacy">privacy policy</a>.</dd>
       <dt>Can I make a promise for more than one person?</dt>
       <dd>Yes. Make one for yourself and one for each person you care about. Each gets its own card and link.</dd>
       <dt>I have made my promise. What next?</dt>
