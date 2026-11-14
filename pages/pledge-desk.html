@@ -27,23 +27,23 @@
       <div class="pd-tiles" id="tiles"></div>
       <div class="grid g2" style="margin-top:20px">
         <div class="card"><h3>Promises chosen</h3><div id="bypromise"></div></div>
-        <div class="card"><h3>Who brought people in</h3><p class="note">Promises made through someone's shared link, and through group links.</p><div id="sharers"></div></div>
+        <div class="card"><h3>Who brought people in</h3><p class="note">Promises made through a shared card, a group link, or a tracked link (doctor, WhatsApp channel and so on).</p><div id="sharers"></div></div>
       </div>
       <div class="pd-bar">
         <div class="pd-tabs" role="tablist">
           <button type="button" data-f="all" aria-selected="true">All</button>
           <button type="button" data-f="d7" aria-selected="false">Day 7 reminder due</button>
           <button type="button" data-f="d30" aria-selected="false">Day 30 reminder due</button>
-          <button type="button" data-f="wa" aria-selected="false">WhatsApp opt-ins</button>
+          <button type="button" data-f="wa" aria-selected="false">Reminder opt-ins</button>
           <button type="button" data-f="high" aria-selected="false">High risk score</button>
         </div>
-        <input id="q" type="search" placeholder="Search name or number" aria-label="Search">
+        <input id="q" type="search" placeholder="Search name, number or email" aria-label="Search">
         <button class="btn btn-ghost btn-sm" type="button" id="csv">Download CSV</button>
         <button class="btn btn-ghost btn-sm" type="button" id="reload">Refresh</button>
       </div>
       <p class="note" id="count"></p>
-      <div class="table-wrap"><table class="pd-table"><thead><tr><th>Date</th><th>Name</th><th>Promise</th><th>Risk</th><th>WhatsApp</th><th>Brought</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
-      <p class="note" style="margin-top:14px">Reminders open WhatsApp with the message already written. Mark the status after sending so the row leaves the "due" list. Opted out removes the number from reminders.</p>
+      <div class="table-wrap"><table class="pd-table"><thead><tr><th>Date</th><th>Name</th><th>Promise</th><th>Risk</th><th>Reminders</th><th>Brought</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <p class="note" style="margin-top:14px">Email reminders go out on their own, timed to each promise, and the Reminders column shows how many have gone. Older promises with a phone number still have the WhatsApp Day 7 and Day 30 buttons. Opted out stops all reminders.</p>
     </div>
   </div>
 </section>

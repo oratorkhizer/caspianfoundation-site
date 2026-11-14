@@ -64,20 +64,23 @@
   if (pass) open();
 
   function summary() {
-    var now = Date.now(), day = 0, week = 0, loved = 0, high = 0, wa = 0, viaLink = 0, groups = {};
-    var byP = {}, bySharer = {};
+    var now = Date.now(), day = 0, week = 0, loved = 0, high = 0, wa = 0, em = 0, viaLink = 0, groups = {};
+    var byP = {}, bySharer = {}, bySrc = {};
     rows.forEach(function (r) {
       var d = (now - new Date(r.created_at).getTime()) / 864e5;
       if (d < 1) day++; if (d < 7) week++;
       if (r.path === 'loved_one') loved++;
       if (r.risk_band === 'high') high++;
       if (r.wa_optin) wa++;
+      if (r.email_optin) em++;
       if (r.ref_code) viaLink++;
       var c = r.utm && r.utm.campaign;
       if (c && c.indexOf('group:') === 0) groups[c.slice(6)] = (groups[c.slice(6)] || 0) + 1;
       byP[r.promise] = (byP[r.promise] || 0) + 1;
+      var src = (r.utm && r.utm.source) || (r.ref_code ? 'shared card' : 'no tag');
+      bySrc[src] = (bySrc[src] || 0) + 1;
     });
-    var T = [[rows.length, 'promises in all'], [day, 'in the last 24 hours'], [week, 'in the last 7 days'], [loved, 'made for a loved one'], [viaLink, 'came through a shared link'], [wa, 'agreed to WhatsApp reminders'], [high, 'high risk on the score']];
+    var T = [[rows.length, 'promises in all'], [day, 'in the last 24 hours'], [week, 'in the last 7 days'], [loved, 'made for a loved one'], [viaLink, 'came through a shared link'], [em, 'agreed to email reminders'], [wa, 'agreed to WhatsApp reminders (old form)'], [high, 'high risk on the score']];
     $('tiles').innerHTML = T.map(function (t) { return '<div><b>' + t[0].toLocaleString('en-IN') + '</b><span>' + t[1] + '</span></div>'; }).join('');
     var max = Math.max.apply(null, Object.keys(byP).map(function (k) { return byP[k]; }).concat([1]));
     $('bypromise').innerHTML = '<div class="pd-bars">' + Object.keys(byP).sort(function (a, b) { return byP[b] - byP[a]; }).map(function (k) {
@@ -88,7 +91,8 @@
     var g = Object.keys(groups).sort(function (a, b) { return groups[b] - groups[a]; }).slice(0, 8);
     $('sharers').innerHTML = (top.length || g.length)
       ? '<div class="pd-bars">' + top.map(function (r) { return '<div><span>' + esc(r.name) + '</span><b>' + r.inspired + '</b></div>'; }).join('') +
-        g.map(function (k) { return '<div><span>Group: ' + esc(k) + '</span><b>' + groups[k] + '</b></div>'; }).join('') + '</div>'
+        g.map(function (k) { return '<div><span>Group: ' + esc(k) + '</span><b>' + groups[k] + '</b></div>'; }).join('') +
+        Object.keys(bySrc).sort(function (a, b) { return bySrc[b] - bySrc[a]; }).map(function (k) { return '<div><span>Link: ' + esc(k) + '</span><b>' + bySrc[k] + '</b></div>'; }).join('') + '</div>'
       : '<p class="note">Nobody yet.</p>';
   }
 
@@ -111,18 +115,18 @@
     var list = rows.filter(function (r) {
       if (filter === 'd7' && !due(r, 'd7')) return false;
       if (filter === 'd30' && !due(r, 'd30')) return false;
-      if (filter === 'wa' && !r.wa_optin) return false;
+      if (filter === 'wa' && !(r.wa_optin || r.email_optin)) return false;
       if (filter === 'high' && r.risk_band !== 'high') return false;
       if (q) {
         var digits = q.replace(/\D/g, '').replace(/^(0|91)(?=\d{10}$)/, '');
-        var hay = (r.name + ' ' + (r.dedicated_to || '')).toLowerCase();
+        var hay = (r.name + ' ' + (r.dedicated_to || '') + ' ' + (r.email || '')).toLowerCase();
         if (hay.indexOf(q) < 0 && !(digits.length >= 4 && String(r.phone || '').indexOf(digits) >= 0)) return false;
       }
       return true;
     });
     $('count').textContent = list.length + ' of ' + rows.length + ' shown';
     $('rows').innerHTML = list.map(function (r) {
-      var wa = r.phone ? esc(r.phone) + (r.wa_optin ? '<div class="pd-wa"><a target="_blank" rel="noopener" href="' + waLink(r, 'd7') + '">Day 7</a><a target="_blank" rel="noopener" href="' + waLink(r, 'd30') + '">Day 30</a></div>' : '<small>no reminders</small>') : '<small>none</small>';
+      var wa = r.email ? esc(r.email) + (r.email_optin ? '<small>' + (r.reminders_sent || 0) + ' reminder' + ((r.reminders_sent || 0) === 1 ? '' : 's') + ' sent' + (r.last_reminder_at ? ', last ' + fmt(r.last_reminder_at) : '') + '</small>' : '<small>stopped</small>') : r.phone ? esc(r.phone) + (r.wa_optin ? '<div class="pd-wa"><a target="_blank" rel="noopener" href="' + waLink(r, 'd7') + '">Day 7</a><a target="_blank" rel="noopener" href="' + waLink(r, 'd30') + '">Day 30</a></div>' : '<small>no reminders</small>') : '<small>none</small>';
       var st = '<select data-code="' + r.code + '" aria-label="Status">' + STATUS.map(function (s) { return '<option value="' + s[0] + '"' + (r.followup_status === s[0] ? ' selected' : '') + '>' + s[1] + '</option>'; }).join('') + '</select>';
       return '<tr><td>' + fmt(r.created_at) + '<small>No. ' + r.pledge_no + '</small></td>' +
         '<td>' + esc(r.name) + '<small>' + esc(PATH[r.path] || r.path) + (r.dedicated_to ? ', for ' + esc(r.dedicated_to) : '') + '</small></td>' +
@@ -140,7 +144,7 @@
     call({ op: 'update', code: code, followup_status: s.value }).then(function (j) {
       s.disabled = false;
       if (j._status !== 200) { window.alert(j.error || 'Could not save.'); return; }
-      rows.forEach(function (r) { if (r.code === code) { r.followup_status = s.value; if (s.value === 'opted_out') r.wa_optin = false; } });
+      rows.forEach(function (r) { if (r.code === code) { r.followup_status = s.value; if (s.value === 'opted_out') { r.wa_optin = false; r.email_optin = false; } } });
       summary(); table();
     });
   });
@@ -154,9 +158,9 @@
   $('q').addEventListener('input', table);
   $('reload').addEventListener('click', open);
   $('csv').addEventListener('click', function () {
-    var head = ['date', 'no', 'name', 'for', 'path', 'promise', 'risk', 'phone', 'whatsapp_reminders', 'status', 'brought', 'came_via_link', 'source', 'campaign', 'notes'];
+    var head = ['date', 'no', 'name', 'for', 'path', 'promise', 'risk', 'phone', 'whatsapp_reminders', 'email', 'email_reminders', 'reminders_sent', 'status', 'brought', 'came_via_link', 'source', 'campaign', 'notes'];
     var out = [head.join(',')].concat(rows.map(function (r) {
-      return [new Date(r.created_at).toISOString(), r.pledge_no, r.name, r.dedicated_to, r.path, 'I promise to ' + line(r), r.risk_band, r.phone, r.wa_optin ? 'yes' : 'no', (STATUS.filter(function (x) { return x[0] === r.followup_status; })[0] || [0, r.followup_status])[1], r.inspired, r.ref_code, r.utm && r.utm.source, r.utm && r.utm.campaign, r.notes]
+      return [new Date(r.created_at).toISOString(), r.pledge_no, r.name, r.dedicated_to, r.path, 'I promise to ' + line(r), r.risk_band, r.phone, r.wa_optin ? 'yes' : 'no', r.email, r.email_optin ? 'yes' : 'no', r.reminders_sent || 0, (STATUS.filter(function (x) { return x[0] === r.followup_status; })[0] || [0, r.followup_status])[1], r.inspired, r.ref_code, r.utm && r.utm.source, r.utm && r.utm.campaign, r.notes]
         .map(function (v) { v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(',');
     }));
     var a = document.createElement('a');
