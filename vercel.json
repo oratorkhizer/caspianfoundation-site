@@ -5,6 +5,10 @@
   "buildCommand": "node build.mjs",
   "outputDirectory": "public",
   "framework": null,
+  "rewrites": [
+    { "source": "/sbx/gjpbiiqkvzysmdpioexk/:path*", "destination": "https://gjpbiiqkvzysmdpioexk.supabase.co/:path*" },
+    { "source": "/sbx/itqxfypvrvwplzeeldaz/:path*", "destination": "https://itqxfypvrvwplzeeldaz.supabase.co/:path*" }
+  ],
   "headers": [
     {
       "source": "/(.*)",

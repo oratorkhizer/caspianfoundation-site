@@ -110,7 +110,10 @@
       fetch('/api/award?op=upload', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: fk, ext: ext, size: f.size }) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Upload could not start.'); return j; }); })
         .then(function (j) {
-          return fetch(j.url, { method: 'PUT', headers: { 'Content-Type': f.type || (ext === 'pdf' ? 'application/pdf' : 'image/jpeg'), 'x-upsert': 'false' }, body: f })
+          /* through this site (/sbx rewrite), as some networks block supabase.co; Vercel caps one
+             request at about 4.5 MB, so a file over 4 MB still goes straight to storage */
+          var to = f.size <= 4194304 ? String(j.url).replace(/^https:\/\/([a-z0-9]{20})\.supabase\.co\//, '/sbx/$1/') : j.url;
+          return fetch(to, { method: 'PUT', headers: { 'Content-Type': f.type || (ext === 'pdf' ? 'application/pdf' : 'image/jpeg'), 'x-upsert': 'false' }, body: f })
             .then(function (r) { if (!r.ok) throw new Error('The upload did not finish. Please try again.'); return j.path; });
         })
         .then(function (path) {

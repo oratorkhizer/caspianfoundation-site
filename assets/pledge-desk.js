@@ -2,7 +2,7 @@
    Same Foundation passcode as the award desk; it is kept for this browser tab only. */
 (function () {
   'use strict';
-  var API = 'https://itqxfypvrvwplzeeldaz.supabase.co/functions/v1/pledge-api';
+  var API = '/sbx/itqxfypvrvwplzeeldaz/functions/v1/pledge-api'; // through this site (/sbx rewrite): some networks block supabase.co
   var $ = function (id) { return document.getElementById(id); };
   var pass = '';
   try { pass = sessionStorage.getItem('chf-pledge-desk') || ''; } catch (e) { pass = ''; }
