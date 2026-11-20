@@ -3,6 +3,7 @@
    the session. Files open through ten-minute signed links. */
 (function () {
   var $ = function (id) { return document.getElementById(id); };
+  var sbxUrl = function (u) { return String(u == null ? "" : u).replace(/^https:\/\/(gjpbiiqkvzysmdpioexk|itqxfypvrvwplzeeldaz)\.supabase\.co\//, "/sbx/$1/"); }; /* files through this site: some networks block supabase.co */
   var pass = '';
   try { pass = sessionStorage.getItem('chf-award-desk') || ''; } catch (e) { pass = ''; }
   var data = { entries: [], nominations: [], jurors: [], stories: [] };
@@ -170,7 +171,7 @@
       var b = el('button', { type: 'button', class: 'btn btn-gold btn-sm' }, f[1]);
       b.addEventListener('click', function () {
         var w = window.open('', '_blank');
-        api({ op: 'file', path: r[f[0]] }).then(function (j) { if (w) w.location = j.url; else location.href = j.url; })
+        api({ op: 'file', path: r[f[0]] }).then(function (j) { var u = sbxUrl(j.url); if (w) w.location = u; else location.href = u; })
           .catch(function (er) { if (w) w.close(); $('d-msg').textContent = er.message; });
       });
       files.appendChild(b);

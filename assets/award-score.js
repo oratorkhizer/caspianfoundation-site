@@ -2,6 +2,7 @@
    to any server log), is kept for this browser session and removed from the address bar. */
 (function () {
   var $ = function (id) { return document.getElementById(id); };
+  var sbxUrl = function (u) { return String(u == null ? "" : u).replace(/^https:\/\/(gjpbiiqkvzysmdpioexk|itqxfypvrvwplzeeldaz)\.supabase\.co\//, "/sbx/$1/"); }; /* files through this site: some networks block supabase.co */
   var token = '';
   var m = location.hash.match(/t=([A-Za-z0-9_-]{20,})/);
   try {
@@ -91,7 +92,7 @@
         var b = el('button', { type: 'button', class: 'btn btn-gold btn-sm' }, f[1]);
         b.addEventListener('click', function () {
           var w = window.open('', '_blank');
-          api({ action: 'juror_file', assignment_id: a.id, which: f[0] }).then(function (j) { if (w) w.location = j.url; else location.href = j.url; })
+          api({ action: 'juror_file', assignment_id: a.id, which: f[0] }).then(function (j) { var u = sbxUrl(j.url); if (w) w.location = u; else location.href = u; })
             .catch(function (e) { if (w) w.close(); say(e.message); });
         });
         files.appendChild(b);
