@@ -72,10 +72,10 @@ async function buildBrandImages() {
   const photo = join(out, 'img', 'expo-hall.webp');
   const base = existsSync(photo)
     ? sharp(photo).resize(1200, 630, { fit: 'cover', position: 'centre' })
-    : sharp({ create: { width: 1200, height: 630, channels: 3, background: '#2a7f62' } });
+    : sharp({ create: { width: 1200, height: 630, channels: 3, background: '#267f65' } });
   const veil = Buffer.from(
     '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">' +
-      '<rect width="1200" height="630" fill="#2a7f62" opacity="0.82"/>' +
+      '<rect width="1200" height="630" fill="#267f65" opacity="0.82"/>' +
       '<rect x="0" y="618" width="1200" height="12" fill="#f2cc8f"/>' +
       '<rect x="300" y="196" width="600" height="238" rx="22" fill="#ffffff"/>' +
       '</svg>'
@@ -93,7 +93,7 @@ async function buildBrandImages() {
   // Touch icon: the logo on the navy ground.
   const iconLogo = await sharp(logo).resize({ width: 146 }).toBuffer();
   const im = await sharp(iconLogo).metadata();
-  await sharp({ create: { width: 180, height: 180, channels: 3, background: '#2a7f62' } })
+  await sharp({ create: { width: 180, height: 180, channels: 3, background: '#267f65' } })
     .composite([{ input: iconLogo, top: Math.round((180 - im.height) / 2), left: 17 }])
     .png()
     .toFile(join(out, 'apple-touch-icon.png'));

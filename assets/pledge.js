@@ -345,7 +345,7 @@
     var W = 1080, H = fmt === 'story' ? 1920 : 1350;
     c.width = W; c.height = H;
     var x = c.getContext('2d');
-    var JADE = '#2a7f62', SAND = '#f2cc8f', CREAM = '#fbf1e1', INK = '#23463b', MUTED = '#5a776d', GOLD = '#9a6a24';
+    var JADE = '#267f65', SAND = '#f2cc8f', CREAM = '#fbf1e1', INK = '#23463b', MUTED = '#5a776d', GOLD = '#9a6a24';
     var serif = '"Crimson Pro", Georgia, serif', sans = 'Karla, Arial, sans-serif';
     x.fillStyle = CREAM; x.fillRect(0, 0, W, H);
     // header

@@ -1,5 +1,5 @@
 :root{
-  --navy:#2a7f62;
+  --navy:#267f65;
   --navy-2:#236b53;
   --navy-3:#33916f;
   --ink:#23463b;
@@ -13,7 +13,7 @@
   --good:#0f5132;
   --maxw:1140px;
   --radius:14px;
-  --shadow:0 10px 30px rgba(42,127,98,.08);
+  --shadow:0 10px 30px rgba(38,127,101,.08);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -31,7 +31,7 @@ p{margin:0 0 1em}
 .skip:focus{left:8px;top:8px}
 
 /* header */
-.site-head{position:sticky;top:0;z-index:100;background:rgba(42,127,98,.98);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid rgba(255,255,255,.08)}
+.site-head{position:sticky;top:0;z-index:100;background:rgba(38,127,101,.98);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid rgba(255,255,255,.08)}
 .head-in{display:flex;align-items:center;gap:18px;min-height:70px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex:0 0 auto}
 .brand img{height:38px;width:auto}
@@ -189,7 +189,7 @@ figure{margin:0}
 /* identity pass 2 */
 .eyebrow{letter-spacing:.02em;text-transform:none;font-size:.84rem}.kicker{font-family:"Crimson Pro",Georgia,serif;font-style:italic;font-weight:600;letter-spacing:0;text-transform:none;font-size:1.12rem}.card .tag{letter-spacing:.02em;text-transform:none;font-size:.82rem}
 /* identity pass 3 */
-section:not(.sec-navy) .band{background:#fbf1e1!important;background-image:none!important;border:0!important;border-left:8px solid #2a7f62!important;border-radius:6px!important;box-shadow:none!important}section:not(.sec-navy) .band::before,section:not(.sec-navy) .band::after{display:none!important}section:not(.sec-navy) .band :is(h2,h3,p,span,strong,em):not(a):not(a *){color:#4A1328!important}section:not(.sec-navy) .band .btn-gold{background:#2a7f62!important;background-image:none!important;opacity:1!important;color:#fff!important;box-shadow:none!important}section:not(.sec-navy) .band .btn-ghost-light{color:#2a7f62!important;border-color:#2a7f62!important}
+section:not(.sec-navy) .band{background:#fbf1e1!important;background-image:none!important;border:0!important;border-left:8px solid #267f65!important;border-radius:6px!important;box-shadow:none!important}section:not(.sec-navy) .band::before,section:not(.sec-navy) .band::after{display:none!important}section:not(.sec-navy) .band :is(h2,h3,p,span,strong,em):not(a):not(a *){color:#4A1328!important}section:not(.sec-navy) .band .btn-gold{background:#267f65!important;background-image:none!important;opacity:1!important;color:#fff!important;box-shadow:none!important}section:not(.sec-navy) .band .btn-ghost-light{color:#267f65!important;border-color:#267f65!important}
 /* award (Diabesity Changemakers Award) */
 .datebar{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
 .datebar div{padding:18px 20px;border-right:1px solid var(--line)}
@@ -222,7 +222,7 @@ dl.qa dd{margin:6px 0 0;color:var(--ink)}
 .choice label{display:block;border:1.5px solid var(--line-2);border-radius:12px;padding:14px;cursor:pointer;font-size:.88rem;color:var(--muted)}
 .choice label b{display:block;color:var(--navy);font-family:"Crimson Pro",Georgia,serif;font-size:1.15rem;margin-bottom:4px}
 .choice input{position:absolute;opacity:0;width:1px;height:1px}
-.choice label:has(input:checked){border-color:var(--navy);box-shadow:0 0 0 3px rgba(42,127,98,.12);background:#f2faf6}
+.choice label:has(input:checked){border-color:var(--navy);box-shadow:0 0 0 3px rgba(38,127,101,.12);background:#f2faf6}
 .choice label:has(input:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;margin-bottom:10px}
 .check input{width:auto;margin-top:5px;flex:0 0 auto}

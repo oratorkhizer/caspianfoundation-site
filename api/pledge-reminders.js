@@ -85,11 +85,11 @@ function compose(r) {
   const html = '<!doctype html><html><body style="margin:0;background:#fbf1e1;font-family:Arial,Helvetica,sans-serif">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fbf1e1;padding:24px 12px"><tr><td align="center">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #e8d9bd">' +
-    '<tr><td style="background:#2a7f62;padding:18px 24px;color:#ffffff;font-size:13px;letter-spacing:.06em">CASPIAN HEALTHCARE FOUNDATION<br><span style="font-size:18px;letter-spacing:0;font-weight:bold">My Diabetes Promise</span></td></tr>' +
+    '<tr><td style="background:#267f65;padding:18px 24px;color:#ffffff;font-size:13px;letter-spacing:.06em">CASPIAN HEALTHCARE FOUNDATION<br><span style="font-size:18px;letter-spacing:0;font-weight:bold">My Diabetes Promise</span></td></tr>' +
     '<tr><td style="padding:24px 24px 8px">' + ps.map((p) => '<p style="margin:0 0 14px;font-size:15px;line-height:1.6;color:#23463b">' + p + '</p>').join('') +
-    '<p style="margin:20px 0"><a href="' + esc(card) + '" style="background:#2a7f62;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:600;display:inline-block">Open my card</a></p></td></tr>' +
+    '<p style="margin:20px 0"><a href="' + esc(card) + '" style="background:#267f65;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:600;display:inline-block">Open my card</a></p></td></tr>' +
     '<tr><td style="padding:14px 24px 20px;border-top:1px solid #e8d9bd;font-size:12px;line-height:1.6;color:#5a776d">You get this because you asked for reminders when you made your promise. ' +
-    '<a href="' + esc(stop) + '" style="color:#2a7f62">Stop these reminders</a>.<br>Caspian Healthcare Foundation, a registered public charitable trust, Hyderabad. This email is general health information, not medical advice. Please talk to your doctor about your own care.</td></tr>' +
+    '<a href="' + esc(stop) + '" style="color:#267f65">Stop these reminders</a>.<br>Caspian Healthcare Foundation, a registered public charitable trust, Hyderabad. This email is general health information, not medical advice. Please talk to your doctor about your own care.</td></tr>' +
     '</table></td></tr></table></body></html>';
   const strip = (s) => String(s).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
   const text = ps.map(strip).join('\n\n') + '\n\nOpen my card: ' + card + '\n\nStop these reminders: ' + stop + '\n\nCaspian Healthcare Foundation, Hyderabad. General health information, not medical advice.';
