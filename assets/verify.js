@@ -3,7 +3,7 @@
    which needs BOTH the certificate number and the private 8-character code
    printed on the paper. Nothing on this page can list certificates. */
 (function () {
-  var FN = '/sbx/gjpbiiqkvzysmdpioexk/functions/v1/cert-verify'; // through this site (/sbx rewrite): some networks block supabase.co
+  var FN = 'https://gjpbiiqkvzysmdpioexk.supabase.co/functions/v1/cert-verify'; // through this site (/sbx rewrite): some networks block supabase.co
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {

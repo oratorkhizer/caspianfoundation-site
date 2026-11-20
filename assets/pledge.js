@@ -4,7 +4,7 @@
    WhatsApp. The back end is the pledge-api Supabase function in the Foundation's project. */
 (function () {
   'use strict';
-  var API = '/sbx/itqxfypvrvwplzeeldaz/functions/v1/pledge-api'; // through this site (/sbx rewrite): some networks block supabase.co
+  var API = 'https://itqxfypvrvwplzeeldaz.supabase.co/functions/v1/pledge-api'; // through this site (/sbx rewrite): some networks block supabase.co
   var SITE = 'https://caspianfoundation.in';
   var started = Date.now();
   var $ = function (id) { return document.getElementById(id); };
